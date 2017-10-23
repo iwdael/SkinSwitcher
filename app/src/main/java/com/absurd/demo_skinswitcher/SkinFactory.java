@@ -30,18 +30,23 @@ public class SkinFactory implements LayoutInflater.Factory2 {
         } else {
             for (String pre : preListPackage) {
                 view = createView(context, attributeSet, pre + name);
-                if (view!=null){
+                if (view != null) {
                     break;
                 }
             }
         }
-        if (view!=null){
-            parseSkinView(context,attributeSet,view);
+        if (view != null) {
+            parseSkinView(context, attributeSet, view);
         }
         return view;
     }
 
     private void parseSkinView(Context context, AttributeSet attributeSet, View view) {
+        for (int i = 0; i < attributeSet.getAttributeCount(); i++) {
+            String name = attributeSet.getAttributeName(i);
+            String value = attributeSet.getAttributeValue(i);
+
+        }
     }
 
     private View createView(Context context, AttributeSet attributeSet, String name) {
