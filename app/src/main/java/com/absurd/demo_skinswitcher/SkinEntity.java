@@ -9,10 +9,10 @@ package com.absurd.demo_skinswitcher;
 public class SkinEntity {
     private String attrName;
     private String attrValue;
-    private String attrId;
+    private int attrId;
     private String attrType;
 
-    public SkinEntity(String attrName, String attrValue, String attrId, String attrType) {
+    public SkinEntity(String attrName, String attrValue, int attrId, String attrType) {
         this.attrName = attrName;
         this.attrValue = attrValue;
         this.attrId = attrId;
@@ -35,11 +35,11 @@ public class SkinEntity {
         this.attrValue = attrValue;
     }
 
-    public String getAttrId() {
+    public int getAttrId() {
         return attrId;
     }
 
-    public void setAttrId(String attrId) {
+    public void setAttrId(int attrId) {
         this.attrId = attrId;
     }
 
