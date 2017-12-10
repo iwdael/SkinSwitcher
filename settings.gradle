@@ -1,1 +1,1 @@
-include ':app', ':libsskinswitcher'
+include ':example', ':libsskinswitcher'
