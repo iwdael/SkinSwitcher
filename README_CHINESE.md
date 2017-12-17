@@ -101,6 +101,7 @@ public class BaseActivity extends Activity implements SkinFactory2.OnSkinFactory
 	        compile 'com.github.aliletter:skinswitcher:v1.0.1'
 	}
 ```
+![Image Text](https://github.com/aliletter/SkinSwitcher/blob/master/skinswitcher.gif)
 <br><br><br>
 ## 感谢浏览
 如果你有任何疑问，请加入QQ群，我将竭诚为你解答。欢迎Star和Fork本仓库，当然也欢迎你关注我。
