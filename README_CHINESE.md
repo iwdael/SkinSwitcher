@@ -98,7 +98,7 @@ public class BaseActivity extends Activity implements SkinFactory2.OnSkinFactory
 ```Java
 	dependencies {
                 ...
-	        compile 'com.github.aliletter:gifengine:v1.0.5'
+	        compile 'com.github.aliletter:skinswitcher :v1.0.1'
 	}
 ```
 <br><br><br>
