@@ -101,6 +101,7 @@ Add it in your application module build.gradle at the end of dependencies where 
 	        compile 'com.github.aliletter:skinswitcher:v1.0.1'
 	}
 ```
+![Image Text](https://github.com/aliletter/SkinSwitcher/blob/master/skinswitcher.gif)
 <br><br><br>
 ## Thank you for your browsing
 If you have any questions, please join the QQ group. I will do my best to answer it for you. Welcome to star and fork this repository, alse follow me.
