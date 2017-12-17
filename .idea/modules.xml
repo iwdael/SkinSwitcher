@@ -3,9 +3,12 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SkinSwitcher.iml" filepath="$PROJECT_DIR$/SkinSwitcher.iml" />
+      <module fileurl="file://C:\Users\absurd\Desktop\SkinSwitcher\SkinSwitcher.iml" filepath="C:\Users\absurd\Desktop\SkinSwitcher\SkinSwitcher.iml" />
       <module fileurl="file://C:\UserFile\Android Application\SkinSwitcher\example\app.iml" filepath="C:\UserFile\Android Application\SkinSwitcher\example\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/example/example.iml" filepath="$PROJECT_DIR$/example/example.iml" />
+      <module fileurl="file://C:\Users\absurd\Desktop\SkinSwitcher\example\example.iml" filepath="C:\Users\absurd\Desktop\SkinSwitcher\example\example.iml" />
       <module fileurl="file://$PROJECT_DIR$/libsskinswitcher/libsskinswitcher.iml" filepath="$PROJECT_DIR$/libsskinswitcher/libsskinswitcher.iml" />
+      <module fileurl="file://C:\Users\absurd\Desktop\SkinSwitcher\libsskinswitcher\libsskinswitcher.iml" filepath="C:\Users\absurd\Desktop\SkinSwitcher\libsskinswitcher\libsskinswitcher.iml" />
     </modules>
   </component>
 </project>
