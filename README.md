@@ -1,5 +1,5 @@
 # SkinSwitcher  [![](https://jitpack.io/v/aliletter/skinswitcher.svg)](https://jitpack.io/#aliletter/skinswitcher)
-SkinSwitcher is a dynamic open-source framework for skin peeing. After successful skinning, SkinSwitcher can achieve the peeing effect without restarting the application. It also supports the dynamic replacement of most of the properties defined in the layout file. The skin resource comes from the external apk file, not the skin resources inside the app.
+SkinSwitcher is a dynamic open-source framework for skin peeing. After successful skinning, SkinSwitcher can achieve the peeing effect without restarting the application. It also supports the dynamic replacement of most of the properties defined in the layout file. The skin resource comes from the external apk file, not the skin resources inside the app.[中文文档](https://github.com/aliletter/SkinSwitcher/blob/master/README_CHINESE.md)
 ## Instruction
 The attribute resources that need to be replaced must be referenced (@dimen/XXXXX), and the direct type (XXDP) cannot be changed. The properties of the skin change control must have corresponding methods. If not, developers can do the method.
 ### Code Sample
