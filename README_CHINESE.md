@@ -75,3 +75,35 @@ public class BaseActivity extends Activity implements SkinFactory2.OnSkinFactory
 }
 
 ```
+### 皮肤包制作
+皮肤包就是apk包，apk中只需要包含使用到的资源即可。资源的类型，以及名称不能改变。
+```Java
+      SkinFactory.initSkinFactory(getApplicationContext());
+      SkinFactory.loadSkinPackage("/sdcard/app-debug.apk");
+```
+## 如何配置
+将本仓库引入你的项目:
+### Step 1. 添加JitPack仓库到Build文件
+合并以下代码到项目根目录下的build.gradle文件的repositories尾。[点击查看详情](https://github.com/aliletter/CarouselBanner/blob/master/root_build.gradle.png)
+```Java
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+### Step 2. 添加依赖   
+合并以下代码到需要使用的application Module的dependencies尾。[点击查看详情](https://github.com/aliletter/CarouselBanner/blob/master/application_build.gradle.png)
+```Java
+	dependencies {
+                ...
+	        compile 'com.github.aliletter:gifengine:v1.0.5'
+	}
+```
+<br><br><br>
+## 感谢浏览
+If you have any questions, please join the QQ group. I will do my best to answer it for you. Welcome to star and fork this repository, alse follow me.
+如果你有任何疑问，请加入QQ群，我将竭诚为你解答。欢迎Star和Fork本仓库，当然也欢迎你关注我。
+<br>
+![Image Text](https://github.com/aliletter/CarouselBanner/blob/master/qq_group.png)
