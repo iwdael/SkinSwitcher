@@ -1,4 +1,4 @@
-package com.aliletter.skinswitcher.base;
+package com.blackchopper.skinswitcher.base;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by aliletter on 2017/10/23.
- * Github：https://github.com/aliletter
- * Emile:4884280@qq.com
+ * author  : Black Chopper
+ * e-mail  : 4884280@qq.com
+ * github  : http://github.com/BlackChopper
+ * project : SkinSwitcher
  */
-
 public abstract class BaseFactory extends Factory {
     private List<SkinView> skins = new ArrayList<>();
     private static String[] preListPackage = new String[]{

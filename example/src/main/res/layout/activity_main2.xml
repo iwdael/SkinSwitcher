@@ -5,6 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
-    tools:context="com.aliletter.demo_skinswitcher.Main2Activity">
+    tools:context="com.aliletter.demo_skinswitcher.com.blackchopper.demo_skinswitcher.Main2Activity">
 
 </android.support.constraint.ConstraintLayout>

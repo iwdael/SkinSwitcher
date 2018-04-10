@@ -1,14 +1,14 @@
-package com.aliletter.skinswitcher.base;
+package com.blackchopper.skinswitcher.base;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 
 /**
- * Author: aliletter
- * Github：https://github.com/aliletter
- * Emile:4884280@qq.com
+ * author  : Black Chopper
+ * e-mail  : 4884280@qq.com
+ * github  : http://github.com/BlackChopper
+ * project : SkinSwitcher
  */
-
   abstract class Factory implements LayoutInflater.Factory2 {
     public static void initSkinFactory(Context context) {
         SkinManager.getInstance().init(context.getApplicationContext());

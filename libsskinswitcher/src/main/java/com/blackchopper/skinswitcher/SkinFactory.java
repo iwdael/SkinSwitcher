@@ -1,16 +1,16 @@
-package com.aliletter.skinswitcher;
+package com.blackchopper.skinswitcher;
 
 import android.view.View;
 
-import com.aliletter.skinswitcher.base.BaseFactory;
-import com.aliletter.skinswitcher.base.ResourceType;
+import com.blackchopper.skinswitcher.base.BaseFactory;
+import com.blackchopper.skinswitcher.base.ResourceType;
 
 /**
- * Author: aliletter
- * Github：https://github.com/aliletter
- * Emile:4884280@qq.com
+ * author  : Black Chopper
+ * e-mail  : 4884280@qq.com
+ * github  : http://github.com/BlackChopper
+ * project : SkinSwitcher
  */
-
 public abstract class SkinFactory extends BaseFactory {
     @Override
     protected void switcher(View view, ResourceType attrType, String attrName, String attrValue, Object attrObj) {

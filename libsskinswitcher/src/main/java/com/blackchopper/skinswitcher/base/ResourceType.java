@@ -1,11 +1,11 @@
-package com.aliletter.skinswitcher.base;
+package com.blackchopper.skinswitcher.base;
 
 /**
- * Author: aliletter
- * Github: http://github.com/aliletter
- * Data: 2017/8/28.
+ * author  : Black Chopper
+ * e-mail  : 4884280@qq.com
+ * github  : http://github.com/BlackChopper
+ * project : SkinSwitcher
  */
-
 public enum ResourceType {
 
 

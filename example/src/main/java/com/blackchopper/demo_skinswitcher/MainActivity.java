@@ -1,4 +1,4 @@
-package com.aliletter.demo_skinswitcher;
+package com.blackchopper.demo_skinswitcher;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.aliletter.skinswitcher.SkinFactory;
+import com.blackchopper.demo_skinswitcher.R;
+import com.blackchopper.skinswitcher.SkinFactory;
 
 public class MainActivity extends BaseActivity {
     TextView tv_view;

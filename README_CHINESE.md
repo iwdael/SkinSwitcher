@@ -1,4 +1,4 @@
-# SkinSwitcher  [![](https://jitpack.io/v/aliletter/skinswitcher.svg)](https://jitpack.io/#aliletter/skinswitcher)
+# SkinSwitcher  [![](https://jitpack.io/v/blackchopper/skinswitcher.svg)](https://jitpack.io/#blackchopper/skinswitcher)
 SkinSwitcher是一个动态换肤的开源框架，换肤成功之后不需要重启应用就能达到换肤的效果，同时它支持动态更换布局文件中定义的绝大部分属性。皮肤资源来自于外置的apk文件，而不是app内部的皮肤资源。
 ## 使用说明
 需要替换的属性资源必须为引用型(@dimen/xxxxx)，直接型（xxdp）是无法进行换肤的。进行换肤的控件对应的属性必须有相应的方法。如果没有，开发者也可以实现相应的方法。
@@ -84,7 +84,7 @@ public class BaseActivity extends Activity implements SkinFactory2.OnSkinFactory
 ## 如何配置
 将本仓库引入你的项目:
 ### Step 1. 添加JitPack仓库到Build文件
-合并以下代码到项目根目录下的build.gradle文件的repositories尾。[点击查看详情](https://github.com/aliletter/CarouselBanner/blob/master/root_build.gradle.png)
+合并以下代码到项目根目录下的build.gradle文件的repositories尾。[点击查看详情](https://github.com/blackchopper/CarouselBanner/blob/master/root_build.gradle.png)
 ```Java
 	allprojects {
 		repositories {
@@ -94,16 +94,16 @@ public class BaseActivity extends Activity implements SkinFactory2.OnSkinFactory
 	}
 ```
 ### Step 2. 添加依赖   
-合并以下代码到需要使用的application Module的dependencies尾。[点击查看详情](https://github.com/aliletter/CarouselBanner/blob/master/application_build.gradle.png)
+合并以下代码到需要使用的application Module的dependencies尾。[点击查看详情](https://github.com/blackchopper/CarouselBanner/blob/master/application_build.gradle.png)
 ```Java
 	dependencies {
                 ...
-	        compile 'com.github.aliletter:skinswitcher:v1.0.1'
+	        compile 'com.github.blackchopper:skinswitcher:v1.0.2'
 	}
 ```
-![Image Text](https://github.com/aliletter/SkinSwitcher/blob/master/skinswitcher.gif)
+![Image Text](https://github.com/blackchopper/SkinSwitcher/blob/master/skinswitcher.gif)
 <br><br><br>
 ## 感谢浏览
 如果你有任何疑问，请加入QQ群，我将竭诚为你解答。欢迎Star和Fork本仓库，当然也欢迎你关注我。
 <br>
-![Image Text](https://github.com/aliletter/CarouselBanner/blob/master/qq_group.png)
+![Image Text](https://github.com/blackchopper/CarouselBanner/blob/master/qq_group.png)

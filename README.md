@@ -1,5 +1,5 @@
-# SkinSwitcher  [![](https://jitpack.io/v/aliletter/skinswitcher.svg)](https://jitpack.io/#aliletter/skinswitcher)
-SkinSwitcher is a dynamic open-source framework for skin peeing. After successful skinning, SkinSwitcher can achieve the peeing effect without restarting the application. It also supports the dynamic replacement of most of the properties defined in the layout file. The skin resource comes from the external apk file, not the skin resources inside the app.[中文文档](https://github.com/aliletter/SkinSwitcher/blob/master/README_CHINESE.md)
+# SkinSwitcher  [![](https://jitpack.io/v/blackchopper/skinswitcher.svg)](https://jitpack.io/#blackchopper/skinswitcher)
+SkinSwitcher is a dynamic open-source framework for skin peeing. After successful skinning, SkinSwitcher can achieve the peeing effect without restarting the application. It also supports the dynamic replacement of most of the properties defined in the layout file. The skin resource comes from the external apk file, not the skin resources inside the app.[中文文档](https://github.com/blackchopper/SkinSwitcher/blob/master/README_CHINESE.md)
 ## Instruction
 The attribute resources that need to be replaced must be referenced (@dimen/XXXXX), and the direct type (XXDP) cannot be changed. The properties of the skin change control must have corresponding methods. If not, developers can do the method.
 ### Code Sample
@@ -84,7 +84,7 @@ The skin package is apk, and the apk only needs to contain the resources used. T
 ## How to
 To get a Git project into your build:
 ### Step 1. Add the JitPack repository to your build file
-Add it in your root build.gradle at the end of repositories.   [click here for details](https://github.com/aliletter/CarouselBanner/blob/master/root_build.gradle.png)
+Add it in your root build.gradle at the end of repositories.   [click here for details](https://github.com/blackchopper/CarouselBanner/blob/master/root_build.gradle.png)
 ```Java
 	allprojects {
 		repositories {
@@ -94,17 +94,17 @@ Add it in your root build.gradle at the end of repositories.   [click here for d
 	}
 ```
 ### Step 2. Add the dependency
-Add it in your application module build.gradle at the end of dependencies where you want to use.[click here for details](https://github.com/aliletter/CarouselBanner/blob/master/application_build.gradle.png)
+Add it in your application module build.gradle at the end of dependencies where you want to use.[click here for details](https://github.com/blackchopper/CarouselBanner/blob/master/application_build.gradle.png)
 ```Java
 	dependencies {
                 ...
-	        compile 'com.github.aliletter:skinswitcher:v1.0.1'
+	        compile 'com.github.blackchopper:skinswitcher:v1.0.2'
 	}
 ```
-![Image Text](https://github.com/aliletter/SkinSwitcher/blob/master/skinswitcher.gif)
+![Image Text](https://github.com/blackchopper/SkinSwitcher/blob/master/skinswitcher.gif)
 <br><br><br>
 ## Thank you for your browsing
 If you have any questions, please join the QQ group. I will do my best to answer it for you. Welcome to star and fork this repository, alse follow me.
 <br>
-![Image Text](https://github.com/aliletter/CarouselBanner/blob/master/qq_group.png)
+![Image Text](https://github.com/blackchopper/CarouselBanner/blob/master/qq_group.png)
  

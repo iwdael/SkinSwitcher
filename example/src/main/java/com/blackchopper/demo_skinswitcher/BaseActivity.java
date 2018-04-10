@@ -1,4 +1,4 @@
-package com.aliletter.demo_skinswitcher;
+package com.blackchopper.demo_skinswitcher;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,17 +7,17 @@ import android.support.v4.view.LayoutInflaterCompat;
 import android.util.Log;
 import android.view.View;
 
-import com.aliletter.skinswitcher.SkinFactory;
-import com.aliletter.skinswitcher.SkinFactory2;
-import com.aliletter.skinswitcher.base.BaseFactory;
-import com.aliletter.skinswitcher.base.ResourceType;
+import com.blackchopper.skinswitcher.SkinFactory;
+import com.blackchopper.skinswitcher.SkinFactory2;
+import com.blackchopper.skinswitcher.base.ResourceType;
+
 
 /**
- * Created by aliletter on 2017/10/23.
- * Github：https://github.com/aliletter
- * Emile:4884280@qq.com
+ * author  : Black Chopper
+ * e-mail  : 4884280@qq.com
+ * github  : http://github.com/BlackChopper
+ * project : SkinSwitcher
  */
-
 public class BaseActivity extends Activity implements SkinFactory2.OnSkinFactory {
     protected SkinFactory factory;
 

@@ -1,7 +1,8 @@
-package com.aliletter.demo_skinswitcher;
+package com.blackchopper.demo_skinswitcher;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.blackchopper.demo_skinswitcher.R;
 
 public class Main2Activity extends BaseActivity {
 

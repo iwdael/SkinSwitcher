@@ -1,10 +1,11 @@
-package com.aliletter.skinswitcher.base;
-import com.aliletter.skinswitcher.util.ResourceTypeUtil;
+package com.blackchopper.skinswitcher.base;
+import com.blackchopper.skinswitcher.util.ResourceTypeUtil;
 
 /**
- * Created by aliletter on 2017/10/24.
- * Github：https://github.com/aliletter
- * Emile:4884280@qq.com
+ * author  : Black Chopper
+ * e-mail  : 4884280@qq.com
+ * github  : http://github.com/BlackChopper
+ * project : SkinSwitcher
  */
 
   class SkinAttr {

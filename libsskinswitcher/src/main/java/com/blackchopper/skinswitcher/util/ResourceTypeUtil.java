@@ -1,18 +1,19 @@
-package com.aliletter.skinswitcher.util;
+package com.blackchopper.skinswitcher.util;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
 
-import com.aliletter.skinswitcher.base.ResourceType;
+import com.blackchopper.skinswitcher.base.ResourceType;
 
 import java.io.File;
 
 /**
- * Author: aliletter
- * Github: http://github.com/aliletter
- * Data: 2017/8/28.
+ * author  : Black Chopper
+ * e-mail  : 4884280@qq.com
+ * github  : http://github.com/BlackChopper
+ * project : SkinSwitcher
  */
 
 public class ResourceTypeUtil {

@@ -1,4 +1,4 @@
-package com.aliletter.skinswitcher.base;
+package com.blackchopper.skinswitcher.base;
 
 import android.content.Context;
 import android.content.res.XmlResourceParser;
@@ -6,11 +6,11 @@ import android.graphics.drawable.Drawable;
 import java.io.File;
 
 /**
- * Author: aliletter
- * Github: http://github.com/aliletter
- * Data: 2017/8/28.
+ * author  : Black Chopper
+ * e-mail  : 4884280@qq.com
+ * github  : http://github.com/BlackChopper
+ * project : SkinSwitcher
  */
-
 class SkinManager extends BaseManager {
     private static volatile SkinManager instance;
 
