@@ -1,21 +1,20 @@
-package com.blackchopper.demo_skinswitcher;
+package com.hacknife.demo_skinswitcher;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.LayoutInflaterCompat;
-import android.util.Log;
 import android.view.View;
 
-import com.blackchopper.skinswitcher.SkinFactory;
-import com.blackchopper.skinswitcher.SkinFactory2;
-import com.blackchopper.skinswitcher.base.ResourceType;
+import com.hacknife.skinswitcher.SkinFactory;
+import com.hacknife.skinswitcher.SkinFactory2;
+import com.hacknife.skinswitcher.base.ResourceType;
 
 
 /**
- * author  : Black Chopper
+ * author  : Hacknife
  * e-mail  : 4884280@qq.com
- * github  : http://github.com/BlackChopper
+ * github  : http://github.com/hacknife
  * project : SkinSwitcher
  */
 public class BaseActivity extends Activity implements SkinFactory2.OnSkinFactory {

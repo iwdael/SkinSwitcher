@@ -1,18 +1,18 @@
-package com.blackchopper.skinswitcher.util;
+package com.hacknife.skinswitcher.util;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
 
-import com.blackchopper.skinswitcher.base.ResourceType;
+import com.hacknife.skinswitcher.base.ResourceType;
 
 import java.io.File;
 
 /**
- * author  : Black Chopper
+ * author  : Hacknife
  * e-mail  : 4884280@qq.com
- * github  : http://github.com/BlackChopper
+ * github  : http://github.com/hacknife
  * project : SkinSwitcher
  */
 

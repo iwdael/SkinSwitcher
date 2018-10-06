@@ -1,10 +1,10 @@
-package com.blackchopper.skinswitcher.base;
-import com.blackchopper.skinswitcher.util.ResourceTypeUtil;
+package com.hacknife.skinswitcher.base;
+import com.hacknife.skinswitcher.util.ResourceTypeUtil;
 
 /**
- * author  : Black Chopper
+ * author  : Hacknife
  * e-mail  : 4884280@qq.com
- * github  : http://github.com/BlackChopper
+ * github  : http://github.com/hacknife
  * project : SkinSwitcher
  */
 

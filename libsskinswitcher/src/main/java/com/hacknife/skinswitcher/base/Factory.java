@@ -1,12 +1,12 @@
-package com.blackchopper.skinswitcher.base;
+package com.hacknife.skinswitcher.base;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 
 /**
- * author  : Black Chopper
+ * author  : Hacknife
  * e-mail  : 4884280@qq.com
- * github  : http://github.com/BlackChopper
+ * github  : http://github.com/hacknife
  * project : SkinSwitcher
  */
   abstract class Factory implements LayoutInflater.Factory2 {

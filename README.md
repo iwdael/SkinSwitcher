@@ -1,8 +1,8 @@
-# SkinSwitcher  [![](https://jitpack.io/v/blackchopper/skinswitcher.svg)](https://jitpack.io/#blackchopper/skinswitcher)
-SkinSwitcher is a dynamic open-source framework for skin peeing. After successful skinning, SkinSwitcher can achieve the peeing effect without restarting the application. It also supports the dynamic replacement of most of the properties defined in the layout file. The skin resource comes from the external apk file, not the skin resources inside the app.[中文文档](https://github.com/blackchopper/SkinSwitcher/blob/master/README_CHINESE.md)
-## Instruction
-The attribute resources that need to be replaced must be referenced (@dimen/XXXXX), and the direct type (XXDP) cannot be changed. The properties of the skin change control must have corresponding methods. If not, developers can do the method.
-### Code Sample
+# SkinSwitcher  [![](https://jitpack.io/v/hacknife/skinswitcher.svg)](https://jitpack.io/#hacknife/skinswitcher)
+SkinSwitcher是一个动态换肤的开源框架，换肤成功之后不需要重启应用就能达到换肤的效果，同时它支持动态更换布局文件中定义的绝大部分属性。皮肤资源来自于外置的apk文件，而不是app内部的皮肤资源。[English](https://github.com/hacknife/SkinSwitcher/blob/master/README_ENGLISH.md)
+## 使用说明
+需要替换的属性资源必须为引用型(@dimen/xxxxx)，直接型（xxdp）是无法进行换肤的。进行换肤的控件对应的属性必须有相应的方法。如果没有，开发者也可以实现相应的方法。
+### 代码示例
 ```Java
 public class BaseActivity extends Activity{
     protected SkinFactory factory;
@@ -12,9 +12,9 @@ public class BaseActivity extends Activity{
         super.onCreate(savedInstanceState);
         factory = new SkinFactory() {
             /**
-             * Attribute filter
-             * @param attrName textColor,background,drawable and so on.
-             * @return if ture,that attribute is what we need to replace.
+             * 属性过滤器
+             * @param attrName textColor,background,drawable 等.
+             * @return 如果为真，表示我们需要替换该属性，同时该属性对应的View也会通过onSwitcher方法
              */
             @Override
             public boolean onAttributeFilter(String attrName) {
@@ -22,15 +22,16 @@ public class BaseActivity extends Activity{
             }
 
             /**
-             * The skin switcher, when we set the skin package, the two methods (onAttributeFilter, onSwitcher) will be called.
-             * @param view If the current Activity contains multiple controls that need to be changed, this method also corresponds to the number of times the user needs to determine the type of the view.
-             * @param attrType This property is used to assist the user to determine the type of resource that the current view needs to replace. (string,mipmap,drawable,dimen,color and so on)
-             * @param attrName Property name. This property is filtered through the onAttributeFilter method. The user can set the properties of the View by calling the corresponding method to achieve the purpose of skin change.（textColor,background,drawable and so on）
-             * @param attrValue Attribute reference value.(@dimen/xxx,@color/xxxx,@mimap/xxxx and so on)
-             * @param attrObj The value of the attribute read in the skin package.
+             * 皮肤切换器，当我们设置皮肤包以后，这两个方法（onAttributeFilter，onSwitcher）才会调用。
+             * @param view 如果当前Activity包含多个需要换肤的控件，那么此方法也会对应执行相应的次数，使用者需要自行判断view的类型。
+             * @param attrType 此属性用于辅助使用者判断当前view需要替换的资源类型。（string,mipmap,drawable,dimen,color等等）
+             * @param attrName 属性名称。此属性是通过onAttributeFilter方法过滤。使用者可以通过属性名称，调用相应的方法设置View的属性，以达到换肤的目的。（textColor,background,drawable 等）
+             * @param attrValue 属性应用值（@dimen/xxx,@color/xxxx,@mimap/xxxx and so on）
+             * @param attrObj 皮肤包中读取的属性值.
              */
             @Override
             public void onSwitcher(View view, ResourceType attrType, String attrName, String attrValue, Object attrObj) {
+            
                 view.setBackgroundColor((Integer) attrObj);
             }
         };
@@ -44,7 +45,6 @@ public class BaseActivity extends Activity{
     }
 }
 ```
-
 ```Java
 public class BaseActivity extends Activity implements SkinFactory2.OnSkinFactory {
     protected SkinFactory2 factory;
@@ -75,16 +75,16 @@ public class BaseActivity extends Activity implements SkinFactory2.OnSkinFactory
 }
 
 ```
-### Skin bag making
-The skin package is apk, and the apk only needs to contain the resources used. The type and the name of resource cannot be changed. 
+### 皮肤包制作
+皮肤包就是apk包，apk中只需要包含使用到的资源即可。资源的类型，以及名称不能改变。
 ```Java
       SkinFactory.initSkinFactory(getApplicationContext());
       SkinFactory.loadSkinPackage("/sdcard/app-debug.apk");
 ```
-## How to
-To get a Git project into your build:
-### Step 1. Add the JitPack repository to your build file
-Add it in your root build.gradle at the end of repositories.   [click here for details](https://github.com/blackchopper/CarouselBanner/blob/master/root_build.gradle.png)
+## 如何配置
+将本仓库引入你的项目:
+### Step 1. 添加JitPack仓库到Build文件
+合并以下代码到项目根目录下的build.gradle文件的repositories尾。[点击查看详情](https://github.com/hacknife/CarouselBanner/blob/master/root_build.gradle.png)
 ```Java
 	allprojects {
 		repositories {
@@ -93,18 +93,17 @@ Add it in your root build.gradle at the end of repositories.   [click here for d
 		}
 	}
 ```
-### Step 2. Add the dependency
-Add it in your application module build.gradle at the end of dependencies where you want to use.[click here for details](https://github.com/blackchopper/CarouselBanner/blob/master/application_build.gradle.png)
+### Step 2. 添加依赖   
+合并以下代码到需要使用的application Module的dependencies尾。[点击查看详情](https://github.com/hacknife/CarouselBanner/blob/master/application_build.gradle.png)
 ```Java
 	dependencies {
                 ...
-	        compile 'com.github.blackchopper:skinswitcher:v1.0.2'
+	        compile 'com.github.hacknife:skinswitcher:v1.0.2'
 	}
 ```
-![Image Text](https://github.com/blackchopper/SkinSwitcher/blob/master/skinswitcher.gif)
+![Image Text](https://github.com/hacknife/SkinSwitcher/blob/master/skinswitcher.gif)
 <br><br><br>
-## Thank you for your browsing
-If you have any questions, please join the QQ group. I will do my best to answer it for you. Welcome to star and fork this repository, alse follow me.
+## 感谢浏览
+如果你有任何疑问，请加入QQ群，我将竭诚为你解答。欢迎Star和Fork本仓库，当然也欢迎你关注我。
 <br>
-![Image Text](https://github.com/blackchopper/CarouselBanner/blob/master/qq_group.png)
- 
+![Image Text](https://github.com/hacknife/CarouselBanner/blob/master/qq_group.png)

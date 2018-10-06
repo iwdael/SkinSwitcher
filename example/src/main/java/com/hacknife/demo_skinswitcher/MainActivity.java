@@ -1,4 +1,4 @@
-package com.blackchopper.demo_skinswitcher;
+package com.hacknife.demo_skinswitcher;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,8 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.blackchopper.demo_skinswitcher.R;
-import com.blackchopper.skinswitcher.SkinFactory;
+import com.hacknife.skinswitcher.SkinFactory;
 
 public class MainActivity extends BaseActivity {
     TextView tv_view;
@@ -20,7 +19,6 @@ public class MainActivity extends BaseActivity {
         tv_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.v("TAG", "-----------------onClick----------------");
                 SkinFactory.initSkinFactory(getApplicationContext());
                 SkinFactory.loadSkinPackage("/sdcard/Music/app-debug.apk");
                 startActivity(new Intent(MainActivity.this, Main2Activity.class));

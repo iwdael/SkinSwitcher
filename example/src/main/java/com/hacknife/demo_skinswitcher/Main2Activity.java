@@ -1,8 +1,6 @@
-package com.blackchopper.demo_skinswitcher;
+package com.hacknife.demo_skinswitcher;
 
 import android.os.Bundle;
-
-import com.blackchopper.demo_skinswitcher.R;
 
 public class Main2Activity extends BaseActivity {
 

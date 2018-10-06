@@ -1,4 +1,4 @@
-package com.blackchopper.skinswitcher.base;
+package com.hacknife.skinswitcher.base;
 
 import android.content.Context;
 import android.content.res.XmlResourceParser;
@@ -6,9 +6,9 @@ import android.graphics.drawable.Drawable;
 import java.io.File;
 
 /**
- * author  : Black Chopper
+ * author  : Hacknife
  * e-mail  : 4884280@qq.com
- * github  : http://github.com/BlackChopper
+ * github  : http://github.com/hacknife
  * project : SkinSwitcher
  */
 class SkinManager extends BaseManager {

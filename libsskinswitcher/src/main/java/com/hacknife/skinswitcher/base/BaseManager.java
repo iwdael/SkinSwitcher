@@ -1,4 +1,4 @@
-package com.blackchopper.skinswitcher.base;
+package com.hacknife.skinswitcher.base;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -8,7 +8,7 @@ import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-import com.blackchopper.skinswitcher.util.ResourceTypeUtil;
+import com.hacknife.skinswitcher.util.ResourceTypeUtil;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -17,9 +17,9 @@ import java.lang.reflect.Method;
 import dalvik.system.DexClassLoader;
 
 /**
- * author  : Black Chopper
+ * author  : Hacknife
  * e-mail  : 4884280@qq.com
- * github  : http://github.com/BlackChopper
+ * github  : http://github.com/hacknife
  * project : SkinSwitcher
  */
   abstract class BaseManager {

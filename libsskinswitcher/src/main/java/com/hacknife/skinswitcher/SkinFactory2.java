@@ -1,14 +1,14 @@
-package com.blackchopper.skinswitcher;
+package com.hacknife.skinswitcher;
 
 import android.view.View;
 
-import com.blackchopper.skinswitcher.base.BaseFactory;
-import com.blackchopper.skinswitcher.base.ResourceType;
+import com.hacknife.skinswitcher.base.BaseFactory;
+import com.hacknife.skinswitcher.base.ResourceType;
 
 /**
- * author  : Black Chopper
+ * author  : Hacknife
  * e-mail  : 4884280@qq.com
- * github  : http://github.com/BlackChopper
+ * github  : http://github.com/hacknife
  * project : SkinSwitcher
  */
 public class SkinFactory2 extends BaseFactory {

@@ -1,4 +1,4 @@
-package com.blackchopper.skinswitcher.base;
+package com.hacknife.skinswitcher.base;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * author  : Black Chopper
+ * author  : Hacknife
  * e-mail  : 4884280@qq.com
- * github  : http://github.com/BlackChopper
+ * github  : http://github.com/hacknife
  * project : SkinSwitcher
  */
 public abstract class BaseFactory extends Factory {
