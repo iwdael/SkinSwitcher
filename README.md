@@ -96,5 +96,5 @@ public class BaseActivity extends Activity implements SkinFactory2.OnSkinFactory
 <br>
 ## 感谢浏览
 如果你有任何疑问，请加入QQ群，我将竭诚为你解答。欢迎Star和Fork本仓库，当然也欢迎你关注我。
-<br>
+<br/><br/>
 ![Image Text](https://github.com/hacknife/CarouselBanner/blob/master/qq_group.png)
