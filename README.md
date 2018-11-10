@@ -1,5 +1,9 @@
-# SkinSwitcher  [![](https://jitpack.io/v/hacknife/skinswitcher.svg)](https://jitpack.io/#hacknife/skinswitcher)
+# SkinSwitcher
+[![](https://img.shields.io/badge/platform-android-orange.svg)](https://github.com/hacknife) [![](https://img.shields.io/badge/language-java-yellow.svg)](https://github.com/hacknife) [![](https://img.shields.io/badge/JCenter-1.0.4-brightgreen.svg)](http://jcenter.bintray.com/com/hacknife/arcmenu/) [![](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/hacknife) [![](https://img.shields.io/badge/license-apache--2.0-green.svg)](https://github.com/hacknife) [![](https://img.shields.io/badge/api-14+-green.svg)](https://github.com/hacknife)<br/><br/>
 SkinSwitcher是一个动态换肤的开源框架，换肤成功之后不需要重启应用就能达到换肤的效果，同时它支持动态更换布局文件中定义的绝大部分属性。皮肤资源来自于外置的apk文件，而不是app内部的皮肤资源。[English](https://github.com/hacknife/SkinSwitcher/blob/master/README_ENGLISH.md)
+<br><br>
+![Image Text](https://github.com/hacknife/SkinSwitcher/blob/master/skinswitcher.gif)
+<br><br>
 ## 使用说明
 需要替换的属性资源必须为引用型(@dimen/xxxxx)，直接型（xxdp）是无法进行换肤的。进行换肤的控件对应的属性必须有相应的方法。如果没有，开发者也可以实现相应的方法。
 ### 代码示例
@@ -81,28 +85,15 @@ public class BaseActivity extends Activity implements SkinFactory2.OnSkinFactory
       SkinFactory.initSkinFactory(getApplicationContext());
       SkinFactory.loadSkinPackage("/sdcard/app-debug.apk");
 ```
-## 如何配置
-将本仓库引入你的项目:
-### Step 1. 添加JitPack仓库到Build文件
-合并以下代码到项目根目录下的build.gradle文件的repositories尾。[点击查看详情](https://github.com/hacknife/CarouselBanner/blob/master/root_build.gradle.png)
-```Java
-	allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
-```
-### Step 2. 添加依赖   
-合并以下代码到需要使用的application Module的dependencies尾。[点击查看详情](https://github.com/hacknife/CarouselBanner/blob/master/application_build.gradle.png)
+## 快速引入项目
+合并以下代码到需要使用Module的dependencies中。
 ```Java
 	dependencies {
                 ...
 	        compile 'com.github.hacknife:skinswitcher:v1.0.2'
 	}
 ```
-![Image Text](https://github.com/hacknife/SkinSwitcher/blob/master/skinswitcher.gif)
-<br><br><br>
+<br>
 ## 感谢浏览
 如果你有任何疑问，请加入QQ群，我将竭诚为你解答。欢迎Star和Fork本仓库，当然也欢迎你关注我。
 <br>
