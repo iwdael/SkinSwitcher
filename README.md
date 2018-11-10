@@ -90,7 +90,7 @@ public class BaseActivity extends Activity implements SkinFactory2.OnSkinFactory
 ```Java
 	dependencies {
                 ...
-	        compile 'com.github.hacknife:skinswitcher:v1.0.2'
+	        compile 'com.hacknife:skinswitcher:1.0.4'
 	}
 ```
 <br>
