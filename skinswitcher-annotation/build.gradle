@@ -1,0 +1,16 @@
+apply plugin: 'java'
+apply plugin: 'com.novoda.bintray-release'
+
+sourceCompatibility = "7"
+targetCompatibility = "7"
+
+publish {
+    userOrg = 'hacknife'
+    groupId = 'com.hacknife.skinswitcher'
+    artifactId = 'skinswitcher-annotation'
+    publishVersion = "${bintray_ver}"
+    bintrayUser = 'hacknife'
+    bintrayKey = "${bintray_key}"
+    desc = ''
+    website = 'https://github.com/hacknife/skinswitcher'
+}

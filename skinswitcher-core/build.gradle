@@ -1,0 +1,31 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
+
+android {
+    buildToolsVersion buidConfig.buildToolsVersion
+    compileSdkVersion buidConfig.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion buidConfig.minSdkVersion
+        targetSdkVersion buidConfig.targetSdkVersion
+        versionCode buidConfig.versionCode
+        versionName buidConfig.versionName
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    api project(path: ':skinswitcher-helper')
+    api project(path: ':skinswitcher-annotation')
+}
+publish {
+    userOrg = 'hacknife'
+    groupId = 'com.hacknife.skinswitcher'
+    artifactId = 'skinswitcher-core'
+    publishVersion = "${bintray_ver}"
+    bintrayUser = 'hacknife'
+    bintrayKey = "${bintray_key}"
+    desc = ''
+    website = 'https://github.com/hacknife/skinswitcher'
+}

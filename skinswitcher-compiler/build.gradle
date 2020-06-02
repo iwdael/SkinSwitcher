@@ -1,0 +1,23 @@
+apply plugin: 'java'
+apply plugin: 'com.novoda.bintray-release'
+
+dependencies {
+    implementation 'com.google.auto.service:auto-service:1.0-rc4'
+    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc4'
+    implementation 'com.github.javaparser:javaparser-core:3.7.0'
+    implementation project(':skinswitcher-annotation')
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"
+
+publish {
+    userOrg = 'hacknife'
+    groupId = 'com.hacknife.skinswitcher'
+    artifactId = 'skinswitcher-compiler'
+    publishVersion = "${bintray_ver}"
+    bintrayUser = 'hacknife'
+    bintrayKey = "${bintray_key}"
+    desc = ''
+    website = 'https://github.com/hacknife/skinswitcher'
+}

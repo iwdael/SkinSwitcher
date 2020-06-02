@@ -1,1 +1,6 @@
-include ':example', ':libsskinswitcher'
+include ':example'
+include ':skinswitcher-core'
+include ':skinswitcher-res'
+include ':skinswitcher-helper'
+include ':skinswitcher-annotation'
+include ':skinswitcher-compiler'

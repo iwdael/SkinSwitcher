@@ -1,0 +1,15 @@
+    /**
+     * System.out.println("=================" + element.toString());//background(java.lang.String,java.lang.String,java.lang.String,com.edifier.skinswitcher.entity.Type)
+     * System.out.println("=================" + element.getSimpleName().toString());//background
+     * System.out.println("=================" + element.getModifiers().toString());//[static]
+     * System.out.println("=================" + element.getAnnotationMirrors().toString());//@com.hacknife.skinswitcher.annotation.Filter("123")
+     * System.out.println("=================" + element.getEnclosedElements().toString());//
+     * System.out.println("=================" + element.getEnclosingElement().toString());//com.hacknife.example.View
+     * System.out.println("=================" + element.getKind().name());//METHOD
+     * System.out.println("=================" + element.getKind().toString());//METHOD
+     * System.out.println("=================" + element.asType().toString());//(java.lang.String,java.lang.String,java.lang.String,com.edifier.skinswitcher.entity.Type)boolean
+     * System.out.println("=================" + element.asType().getKind().toString());//EXECUTABLE
+     * System.out.println("=================" + element.asType().getKind().name());//EXECUTABLE
+     *
+     * @param messager
+     */

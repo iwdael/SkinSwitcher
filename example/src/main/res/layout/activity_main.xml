@@ -9,8 +9,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="@color/colorAccent"
-         android:text="Hello World!"
+        android:background="@color/default_background"
+        android:text="Hello World!"
         android:textSize="30sp" />
 
+    <view
+        class="androidx.appcompat.widget.AppCompatTextView"
+        android:text="123123123"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>
