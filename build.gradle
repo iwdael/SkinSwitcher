@@ -16,7 +16,7 @@ buildscript {
             'buildToolsVersion': '29.0.3'
     ]
     ext.bintray_key = ''
-    ext.bintray_ver = '1.0.9'
+    ext.bintray_ver = '1.1.0'
 }
 
 allprojects {

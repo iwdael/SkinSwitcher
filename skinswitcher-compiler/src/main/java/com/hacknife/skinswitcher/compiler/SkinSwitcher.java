@@ -7,6 +7,7 @@ import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.type.TypeParameter;
@@ -53,10 +54,20 @@ public class SkinSwitcher {
     private Map<String, Element> filter;
     private TypeElement element;
     private String _package;
+    private Element elementId;
+    private Element elementReplace;
 
     SkinSwitcher() {
         invoke = new HashMap<>();
         filter = new HashMap<>();
+    }
+
+    public void setElementId(Element elementId) {
+        this.elementId = elementId;
+    }
+
+    public void setElementReplace(Element elementReplace) {
+        this.elementReplace = elementReplace;
     }
 
     boolean filter(String k, Element v) {
@@ -151,6 +162,12 @@ public class SkinSwitcher {
 
     private BlockStmt createSwitcher() {
         BlockStmt blockStmt = new BlockStmt();
+        if (elementReplace != null) {
+            blockStmt.addStatement(new MethodCallExpr(String.format("value = %s.%s", elementReplace.getEnclosingElement().toString(), elementReplace.getSimpleName().toString()), parameter(elementReplace)));
+        }
+        if (elementId != null) {
+            blockStmt.addStatement(new MethodCallExpr(String.format("int id = %s.%s", elementId.getEnclosingElement().toString(), elementId.getSimpleName().toString()), parameter(elementId)));
+        }
         IfStmt ifStmt = null;
         for (Map.Entry<String, Element> entry : filter.entrySet()) {
             if (ifStmt == null) {
@@ -197,4 +214,6 @@ public class SkinSwitcher {
                 ", \"_package\":\'" + _package + "\'" +
                 '}';
     }
+
+
 }

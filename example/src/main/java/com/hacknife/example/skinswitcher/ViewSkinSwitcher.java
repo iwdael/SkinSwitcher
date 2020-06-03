@@ -7,6 +7,7 @@ import com.hacknife.skinswitcher.helper.SwitcherHelper;
 import com.hacknife.skinswitcher.annotation.Filter;
 import com.hacknife.skinswitcher.annotation.Switcher;
 
+
 /**
  * author  : Hacknife
  * e-mail  : hacknife@outlook.com
@@ -20,8 +21,8 @@ public class ViewSkinSwitcher {
     }
 
     @Switcher
-    static void background(View view, String value, Type type) {
-        view.setBackgroundResource(SwitcherHelper.getResourceId(view.getClass().getClassLoader(), "com.hacknife.example", value.replace("default", "mav"), type));
+    static void background(View view, int  id ) {
+        view.setBackgroundResource(id);
     }
 
 }
