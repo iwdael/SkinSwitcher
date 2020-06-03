@@ -10,8 +10,8 @@ import com.hacknife.skinswitcher.helper.SwitcherHelper;
 public class Switcher {
 
     @Replace
-    static String replace(String value) {
-        return value.replace("default", "mav");
+    static String replace(String originalValue) {
+        return originalValue.replace("default", "mav");
     }
 
     @Id

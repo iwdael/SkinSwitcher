@@ -21,7 +21,7 @@ public class ViewSkinSwitcher {
     }
 
     @Switcher
-    static void background(View view, int  id ) {
+    static void background(View view, int id) {
         view.setBackgroundResource(id);
     }
 

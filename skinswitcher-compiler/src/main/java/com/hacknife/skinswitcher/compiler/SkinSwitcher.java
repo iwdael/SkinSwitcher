@@ -43,9 +43,11 @@ public class SkinSwitcher {
     private static final Parameter PARAMETER_NAME = new Parameter(new TypeParameter("String"), "name");
     private static final Parameter PARAMETER_ATTR = new Parameter(new TypeParameter("String"), "attr");
     private static final Parameter PARAMETER_VALUE = new Parameter(new TypeParameter("String"), "value");
+    private static final Parameter PARAMETER_VALUE_ORIGINAL = new Parameter(new TypeParameter("String"), "originalValue");
     private static final Parameter PARAMETER_TYPE = new Parameter(new TypeParameter("Type"), "type");
     private static final NodeList<Parameter> PARAMETERS_FILTER = new NodeList(Arrays.asList(PARAMETER_NAME, PARAMETER_ATTR, PARAMETER_VALUE, PARAMETER_TYPE));
     private static final NodeList<Parameter> PARAMETERS_SWITCHER = new NodeList(Arrays.asList(PARAMETER_VIEW, PARAMETER_NAME, PARAMETER_ATTR, PARAMETER_VALUE, PARAMETER_TYPE));
+    private static final NodeList<Parameter> PARAMETERS_SWITCHER_ORIGINAL = new NodeList(Arrays.asList(PARAMETER_VIEW, PARAMETER_NAME, PARAMETER_ATTR, PARAMETER_VALUE_ORIGINAL, PARAMETER_TYPE));
 
     private String fullClass;
     private String clazz;
@@ -132,7 +134,7 @@ public class SkinSwitcher {
                 .setBody(createFilter());
         clazzOrInterface
                 .addMethod(SWITCHER)
-                .setParameters(PARAMETERS_SWITCHER)
+                .setParameters(elementReplace == null ? PARAMETERS_SWITCHER : PARAMETERS_SWITCHER_ORIGINAL)
                 .setPublic(true)
                 .setType(boolean.class)
 //                .addAnnotation(Override.class)
@@ -163,7 +165,7 @@ public class SkinSwitcher {
     private BlockStmt createSwitcher() {
         BlockStmt blockStmt = new BlockStmt();
         if (elementReplace != null) {
-            blockStmt.addStatement(new MethodCallExpr(String.format("value = %s.%s", elementReplace.getEnclosingElement().toString(), elementReplace.getSimpleName().toString()), parameter(elementReplace)));
+            blockStmt.addStatement(new MethodCallExpr(String.format("String value = %s.%s", elementReplace.getEnclosingElement().toString(), elementReplace.getSimpleName().toString()), parameter(elementReplace)));
         }
         if (elementId != null) {
             blockStmt.addStatement(new MethodCallExpr(String.format("int id = %s.%s", elementId.getEnclosingElement().toString(), elementId.getSimpleName().toString()), parameter(elementId)));
@@ -171,11 +173,11 @@ public class SkinSwitcher {
         IfStmt ifStmt = null;
         for (Map.Entry<String, Element> entry : filter.entrySet()) {
             if (ifStmt == null) {
-                ifStmt = new IfStmt().setCondition(new MethodCallExpr(String.format("%s.%s", fullClass, entry.getValue().getSimpleName().toString()), parameter(entry.getValue())))
+                ifStmt = new IfStmt().setCondition(new MethodCallExpr(String.format("%s.%s", fullClass, entry.getValue().getSimpleName().toString()), parameter(entry.getValue(), elementReplace != null)))
                         .setThenStmt(new BlockStmt().addStatement(new MethodCallExpr(String.format("%s.%s", fullClass, invoke.get(entry.getKey()).getSimpleName().toString()), parameter(invoke.get(entry.getKey())))).addStatement(new ReturnStmt(new BooleanLiteralExpr(true))));
                 blockStmt.addStatement(ifStmt);
             } else {
-                IfStmt stmt = new IfStmt().setCondition(new MethodCallExpr(String.format("%s.%s", fullClass, entry.getValue().getSimpleName().toString()), parameter(entry.getValue())))
+                IfStmt stmt = new IfStmt().setCondition(new MethodCallExpr(String.format("%s.%s", fullClass, entry.getValue().getSimpleName().toString()), parameter(entry.getValue(), elementReplace != null)))
                         .setThenStmt(new BlockStmt().addStatement(new MethodCallExpr(String.format("%s.%s", fullClass, invoke.get(entry.getKey()).getSimpleName().toString()), parameter(invoke.get(entry.getKey())))).addStatement(new ReturnStmt(new BooleanLiteralExpr(true))));
                 ifStmt.setElseStmt(stmt);
                 ifStmt = stmt;
