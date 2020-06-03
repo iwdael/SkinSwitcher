@@ -13,7 +13,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.hacknife.skinswitcher.entity.Type;
-import com.hacknife.skinswitcher.helper.TypeHelper;
+import com.hacknife.skinswitcher.helper.SwitcherHelper;
 import com.hacknife.skinswitcher.entity.SkinAttr;
 import com.hacknife.skinswitcher.helper.ViewInflater;
 import com.hacknife.skinswitcher.SkinSwitcherAdapter;
@@ -33,12 +33,13 @@ public abstract class BaseFactory implements Factory {
     protected List<SkinSwitcherAdapter> switcherAdapters = new ArrayList<>();
     protected List<SkinView> skinViews = new ArrayList<>();
 
+    @SuppressLint("RestrictedApi")
     @Override
     public View onCreateView(View parent, String name, Context context, AttributeSet attributeSet) {
         if ("fragment".equals(name)) return null;
         List<SkinAttr> attrs = parseSkinView(context, name, attributeSet);
         if (attrs.isEmpty()) return null;
-        @SuppressLint("RestrictedApi") View view = new ViewInflater().createView(parent, name, context, attributeSet, false, Build.VERSION.SDK_INT < 21, true, VectorEnabledTintResources.shouldBeUsed());
+        View view = new ViewInflater().createView(parent, name, context, attributeSet, false, Build.VERSION.SDK_INT < 21, true, VectorEnabledTintResources.shouldBeUsed());
         skinViews.add(new SkinView(view, name, attrs));
         return view;
     }
@@ -70,7 +71,7 @@ public abstract class BaseFactory implements Factory {
             List<SkinSwitcherAdapter> skinSwitcherAdapters = switcherAdapters;
             for (SkinSwitcherAdapter adapter : skinSwitcherAdapters) {
                 for (SkinAttr attr : attrs) {
-                    if (adapter.switcher(view, name,attr.name, attr.value, attr.type)) return;
+                    if (adapter.switcher(view, name, attr.name, attr.value, attr.type)) return;
                 }
             }
         }
@@ -86,7 +87,7 @@ public abstract class BaseFactory implements Factory {
             int resId = Integer.parseInt(id.replace("@", ""));
             String value = context.getResources().getResourceEntryName(resId);
             String typeName = context.getResources().getResourceTypeName(resId);
-            Type type = TypeHelper.getType(typeName);
+            Type type = SwitcherHelper.getType(typeName);
             boolean needSwitcher = needSwitcher(name, attr, value, type);
             if (!needSwitcher) continue;
             attrSet.add(new SkinAttr(attr, value, type));

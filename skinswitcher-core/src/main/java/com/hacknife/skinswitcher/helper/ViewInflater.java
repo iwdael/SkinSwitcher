@@ -55,7 +55,7 @@ public class ViewInflater {
             "android.webkit."
     };
 
-    private static final String LOG_TAG = "AppCompatViewInflater";
+    private static final String LOG_TAG = ViewInflater.class.getName();
 
     private static final Map<String, Constructor<? extends View>> sConstructorMap
             = new ArrayMap<>();
@@ -149,7 +149,7 @@ public class ViewInflater {
                 view = createView(context, name, attrs);
         }
 
-        if (view == null && originalContext != context) {
+        if (view == null) {
             // If the original context does not equal our themed context, then we need to manually
             // inflate it using the name so that android:theme takes effect.
             view = createViewFromTag(context, name, attrs);
@@ -159,7 +159,7 @@ public class ViewInflater {
             // If we have created a view, check its android:onClick
             checkOnClickListener(view, attrs);
         }
-
+        verifyNotNull(view, name);
         return view;
     }
 

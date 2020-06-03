@@ -16,7 +16,7 @@ import java.lang.reflect.Field;
  * github  : http://github.com/hacknife
  * project : SkinSwitcher
  */
-public class TypeHelper {
+public class SwitcherHelper {
     private static String styleable = ".R$styleable";
     private static String style = ".R&style";
     private static String string = ".R$string";
@@ -100,7 +100,7 @@ public class TypeHelper {
     public static int getResourceId(ClassLoader loader, String _package, String id, Type type) {
         int resId = 0;
         try {
-            Class<?> loadClass = loader != null ? loader.loadClass(_package + TypeHelper.getType(type)) : Class.forName(_package + TypeHelper.getType(type));
+            Class<?> loadClass = loader != null ? loader.loadClass(_package + SwitcherHelper.getType(type)) : Class.forName(_package + SwitcherHelper.getType(type));
             Field field = loadClass.getDeclaredField(id);
             resId = (int) field.get(null);
         } catch (Exception e) {

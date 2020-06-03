@@ -9,7 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import com.hacknife.skinswitcher.entity.Type;
-import com.hacknife.skinswitcher.helper.TypeHelper;
+import com.hacknife.skinswitcher.helper.SwitcherHelper;
 import java.io.File;
 import java.lang.reflect.Method;
 
@@ -43,7 +43,7 @@ public abstract class BaseManager {
     }
 
     protected int getResourceId(Type type, String id) {
-        return TypeHelper.getResourceId(mClassLoader, mPackageName, id, type);
+        return SwitcherHelper.getResourceId(mClassLoader, mPackageName, id, type);
     }
 
     private AssetManager getAssetManager(String apk) {
