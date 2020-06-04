@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".adapter.viewholder.MessageViewHolder">
+
+    <data>
+
+        <variable
+            name="entity"
+            type="com.hacknife.example.entity.Message" />
+    </data>
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:textColor="@color/default_textColor"
+        android:background="@color/default_text_bg"
+        android:text="@{entity.content}" />
+</layout>

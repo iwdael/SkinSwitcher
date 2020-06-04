@@ -29,4 +29,13 @@ public class SkinAttr {
     public Type getType() {
         return type;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"name\":\'" + name + "\'" +
+                ", \"value\":\'" + value + "\'" +
+                ", \"type\":" + type +
+                '}';
+    }
 }

@@ -2,6 +2,7 @@ package com.hacknife.skinswitcher.compiler.helper;
 
 import com.github.javaparser.ast.expr.Expression;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 import javax.lang.model.element.Element;
@@ -40,5 +41,10 @@ public class Helper {
             e.printStackTrace();
         }
         return new Expression[]{};
+    }
+
+    public static <T extends Annotation> String annotationVal(T annotation) {
+         if (annotation == null) return null;
+        return annotation.toString().substring(annotation.toString().indexOf("=") + 1, annotation.toString().indexOf(")"));
     }
 }

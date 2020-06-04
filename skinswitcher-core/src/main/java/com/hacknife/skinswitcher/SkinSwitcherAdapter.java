@@ -11,7 +11,8 @@ import com.hacknife.skinswitcher.entity.Type;
  * project : SkinSwitcher
  */
 public interface SkinSwitcherAdapter {
-    boolean filter(String name, String attr, String value, Type type);
+
+    boolean filter(View view, String name, String attr, String value, Type type);
 
     boolean switcher(View view, String name, String attr, String value, Type type);
 }

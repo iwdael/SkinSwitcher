@@ -6,18 +6,17 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.VectorEnabledTintResources;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.hacknife.skinswitcher.SkinSwitcher;
+import com.hacknife.skinswitcher.SkinSwitcherAdapter;
+import com.hacknife.skinswitcher.entity.SkinAttr;
 import com.hacknife.skinswitcher.entity.Type;
 import com.hacknife.skinswitcher.helper.SwitcherHelper;
-import com.hacknife.skinswitcher.entity.SkinAttr;
 import com.hacknife.skinswitcher.helper.ViewInflater;
-import com.hacknife.skinswitcher.SkinSwitcherAdapter;
-import com.hacknife.skinswitcher.SkinSwitcher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,33 +31,60 @@ public abstract class BaseFactory implements Factory {
 
     protected List<SkinSwitcherAdapter> switcherAdapters = new ArrayList<>();
     protected List<SkinView> skinViews = new ArrayList<>();
+    protected int refresh = 0;
 
     @SuppressLint("RestrictedApi")
     @Override
     public View onCreateView(View parent, String name, Context context, AttributeSet attributeSet) {
         if ("fragment".equals(name)) return null;
-        List<SkinAttr> attrs = parseSkinView(context, name, attributeSet);
-        if (attrs.isEmpty()) return null;
         View view = new ViewInflater().createView(parent, name, context, attributeSet, false, Build.VERSION.SDK_INT < 21, true, VectorEnabledTintResources.shouldBeUsed());
-        skinViews.add(new SkinView(view, name, attrs));
+        if (view == null) return null;
+        List<SkinAttr> attrs = parseSkinView(context, view, name, attributeSet);
+        if (attrs.isEmpty()) return view;
+        SkinView skinView = new SkinView(view, name, attrs);
+        skinViews.add(skinView);
+        if (skinView.refresh != refresh) {
+            skinView.skinSwitch();
+            skinView.refresh = refresh;
+        }
         return view;
     }
 
     @Override
     public void onStateChanged(@NonNull LifecycleOwner source, @NonNull Lifecycle.Event event) {
         if (event != Lifecycle.Event.ON_START) return;
-        skinSwitch();
+        skinSwitch(++refresh);
+    }
+
+    private void skinSwitch(int refresh) {
+        for (SkinView skinView : skinViews) {
+            if (skinView.refresh != refresh) {
+                skinView.skinSwitch();
+                skinView.refresh = refresh;
+            }
+        }
     }
 
     public class SkinView {
         public View view;
         public String name;
         public List<SkinAttr> attrs;
+        public int refresh;
 
         public SkinView(View view, String name, List<SkinAttr> attrs) {
             this.view = view;
             this.name = name;
             this.attrs = attrs;
+            this.refresh = 0;
+        }
+
+        @Override
+        public String toString() {
+            return "{" +
+                    "\"view\":" + view.hashCode() +
+                    ", \"name\":\'" + name + "\'" +
+                    ", \"attrs\":" + attrs +
+                    '}';
         }
 
         public void skinSwitch() {
@@ -78,7 +104,7 @@ public abstract class BaseFactory implements Factory {
     }
 
 
-    private List<SkinAttr> parseSkinView(Context context, String name, AttributeSet attributeSet) {
+    private List<SkinAttr> parseSkinView(Context context, View view, String name, AttributeSet attributeSet) {
         List<SkinAttr> attrSet = new ArrayList<>();
         for (int i = 0; i < attributeSet.getAttributeCount(); i++) {
             String attr = attributeSet.getAttributeName(i);
@@ -88,28 +114,28 @@ public abstract class BaseFactory implements Factory {
             String value = context.getResources().getResourceEntryName(resId);
             String typeName = context.getResources().getResourceTypeName(resId);
             Type type = SwitcherHelper.getType(typeName);
-            boolean needSwitcher = needSwitcher(name, attr, value, type);
+            boolean needSwitcher = needSwitcher(view, name, attr, value, type);
             if (!needSwitcher) continue;
             attrSet.add(new SkinAttr(attr, value, type));
         }
         return attrSet;
     }
 
-    private boolean needSwitcher(String name, String attr, String value, Type type) {
+    private boolean needSwitcher(View view, String name, String attr, String value, Type type) {
         List<SkinSwitcherAdapter> adapters = SkinSwitcher.skinSwitcherAdapters();
         for (SkinSwitcherAdapter adapter : adapters) {
-            if (adapter.filter(name, attr, value, type)) return true;
+            if (adapter.filter(view, name, attr, value, type)) return true;
         }
         List<SkinSwitcherAdapter> skinSwitcherAdapters = switcherAdapters;
         for (SkinSwitcherAdapter adapter : skinSwitcherAdapters) {
-            if (adapter.filter(name, attr, value, type)) return true;
+            if (adapter.filter(view, name, attr, value, type)) return true;
         }
         return false;
     }
 
 
     @Override
-    public View onCreateView(String name, Context context, AttributeSet attributeSet) {
+    public View onCreateView(String name, Context context, AttributeSet attr) {
         return null;
     }
 }

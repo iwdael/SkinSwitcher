@@ -8,6 +8,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.InflateException;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -34,6 +35,7 @@ import androidx.core.view.ViewCompat;
 import com.hacknife.skinswitcher.R;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -420,6 +422,29 @@ public class ViewInflater {
             throw new IllegalStateException("Could not find method " + mMethodName
                     + "(View) in a parent or ancestor Context for android:onClick "
                     + "attribute defined on view " + mHostView.getClass() + idText);
+        }
+    }
+
+    private static boolean sCheckedField;
+    private static Field sLayoutInflaterFactory2Field;
+    private static final String TAG = ViewInflater.class.getName();
+
+    public static void forceSetFactory2(LayoutInflater inflater, LayoutInflater.Factory2 factory) {
+        if (!sCheckedField) {
+            try {
+                sLayoutInflaterFactory2Field = LayoutInflater.class.getDeclaredField("mFactory2");
+                sLayoutInflaterFactory2Field.setAccessible(true);
+            } catch (NoSuchFieldException e) {
+                Log.e(TAG, "forceSetFactory2 Could not find field 'mFactory2' on class " + LayoutInflater.class.getName() + "; inflation may have unexpected results.", e);
+            }
+            sCheckedField = true;
+        }
+        if (sLayoutInflaterFactory2Field != null) {
+            try {
+                sLayoutInflaterFactory2Field.set(inflater, factory);
+            } catch (IllegalAccessException e) {
+                Log.e(TAG, "forceSetFactory2 could not set the Factory2 on LayoutInflater " + inflater + "; inflation may have unexpected results.", e);
+            }
         }
     }
 }

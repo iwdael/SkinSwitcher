@@ -4,13 +4,25 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.expr.BooleanLiteralExpr;
+import com.github.javaparser.ast.expr.ConditionalExpr;
+import com.github.javaparser.ast.expr.EnclosedExpr;
+import com.github.javaparser.ast.expr.InstanceOfExpr;
+import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.expr.MethodReferenceExpr;
+import com.github.javaparser.ast.expr.StringLiteralExpr;
+import com.github.javaparser.ast.expr.SuperExpr;
+import com.github.javaparser.ast.expr.UnaryExpr;
+import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.type.TypeParameter;
+import com.hacknife.skinswitcher.annotation.Target;
+import com.hacknife.skinswitcher.compiler.helper.Helper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +35,8 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 
+import static com.github.javaparser.ast.expr.BinaryExpr.Operator.EQUALS;
+import static com.github.javaparser.ast.expr.UnaryExpr.Operator.LOGICAL_COMPLEMENT;
 import static com.hacknife.skinswitcher.compiler.helper.Helper.parameter;
 
 /**
@@ -45,7 +59,7 @@ public class SkinSwitcher {
     private static final Parameter PARAMETER_VALUE = new Parameter(new TypeParameter("String"), "value");
     private static final Parameter PARAMETER_VALUE_ORIGINAL = new Parameter(new TypeParameter("String"), "originalValue");
     private static final Parameter PARAMETER_TYPE = new Parameter(new TypeParameter("Type"), "type");
-    private static final NodeList<Parameter> PARAMETERS_FILTER = new NodeList(Arrays.asList(PARAMETER_NAME, PARAMETER_ATTR, PARAMETER_VALUE, PARAMETER_TYPE));
+    private static final NodeList<Parameter> PARAMETERS_FILTER = new NodeList(Arrays.asList(PARAMETER_VIEW, PARAMETER_NAME, PARAMETER_ATTR, PARAMETER_VALUE, PARAMETER_TYPE));
     private static final NodeList<Parameter> PARAMETERS_SWITCHER = new NodeList(Arrays.asList(PARAMETER_VIEW, PARAMETER_NAME, PARAMETER_ATTR, PARAMETER_VALUE, PARAMETER_TYPE));
     private static final NodeList<Parameter> PARAMETERS_SWITCHER_ORIGINAL = new NodeList(Arrays.asList(PARAMETER_VIEW, PARAMETER_NAME, PARAMETER_ATTR, PARAMETER_VALUE_ORIGINAL, PARAMETER_TYPE));
 
@@ -164,11 +178,14 @@ public class SkinSwitcher {
 
     private BlockStmt createSwitcher() {
         BlockStmt blockStmt = new BlockStmt();
+        if (Helper.annotationVal(element.getAnnotation(Target.class)) != null)
+            blockStmt.addStatement(new IfStmt().setCondition(new UnaryExpr(new EnclosedExpr(new InstanceOfExpr().setExpression("view").setType(Helper.annotationVal(element.getAnnotation(Target.class)))), LOGICAL_COMPLEMENT)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(false))));
         if (elementReplace != null) {
             blockStmt.addStatement(new MethodCallExpr(String.format("String value = %s.%s", elementReplace.getEnclosingElement().toString(), elementReplace.getSimpleName().toString()), parameter(elementReplace)));
         }
         if (elementId != null) {
-            blockStmt.addStatement(new MethodCallExpr(String.format("int id = %s.%s", elementId.getEnclosingElement().toString(), elementId.getSimpleName().toString()), parameter(elementId)));
+            blockStmt.addStatement(new MethodCallExpr(String.format("int id = %s.%s", elementId.getEnclosingElement().toString(), elementId.getSimpleName().toString()), parameter(elementId)))
+                    .addStatement(new IfStmt().setCondition(new BinaryExpr(new IntegerLiteralExpr("id"), new IntegerLiteralExpr(0), EQUALS)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(true))));
         }
         IfStmt ifStmt = null;
         for (Map.Entry<String, Element> entry : filter.entrySet()) {
@@ -189,6 +206,8 @@ public class SkinSwitcher {
 
     private BlockStmt createFilter() {
         BlockStmt blockStmt = new BlockStmt();
+        if (Helper.annotationVal(element.getAnnotation(Target.class)) != null)
+            blockStmt.addStatement(new IfStmt().setCondition(new UnaryExpr(new EnclosedExpr(new InstanceOfExpr().setExpression("view").setType(Helper.annotationVal(element.getAnnotation(Target.class)))), LOGICAL_COMPLEMENT)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(false))));
         IfStmt ifStmt = null;
         for (Map.Entry<String, Element> entry : filter.entrySet()) {
             if (ifStmt == null) {
