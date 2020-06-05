@@ -1,8 +1,6 @@
 package com.hacknife.skinswitcher;
 
 
-import com.hacknife.skinswitcher.core.BaseFactory;
-
 import java.util.Arrays;
 
 

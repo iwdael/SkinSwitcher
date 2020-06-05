@@ -3,14 +3,8 @@ package com.hacknife.skinswitcher;
 import android.content.Context;
 import android.view.LayoutInflater;
 
-import androidx.lifecycle.Lifecycle;
-
-import com.hacknife.skinswitcher.core.Factory;
-
 import java.util.Arrays;
 import java.util.List;
-
-import static com.hacknife.skinswitcher.SkinSwitcherConfig.context2LifeRecycle;
 
 public class SkinSwitcher {
     public static void addSkinSwitcherAdapter(SkinSwitcherAdapter... adapter) {
@@ -22,10 +16,14 @@ public class SkinSwitcher {
     }
 
     public static LayoutInflater setFactory(LayoutInflater inflater, Factory factory) {
-        return SkinSwitcherConfig.setFactory(context2LifeRecycle(inflater.getContext()), inflater, factory);
+        return SkinSwitcherConfig.setFactory(SkinSwitcherConfig.context2LifeRecycle(inflater.getContext()), inflater, factory);
     }
 
     public static LayoutInflater setFactory(Context context, Factory factory) {
-        return SkinSwitcherConfig.setFactory(context2LifeRecycle(context), LayoutInflater.from(context), factory);
+        return SkinSwitcherConfig.setFactory(SkinSwitcherConfig.context2LifeRecycle(context), LayoutInflater.from(context), factory);
+    }
+
+    public static void skinSwitch() {
+        SkinSwitcherConfig.skinSwitch();
     }
 }

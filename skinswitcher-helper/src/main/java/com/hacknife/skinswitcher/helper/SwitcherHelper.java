@@ -98,14 +98,19 @@ public class SwitcherHelper {
     }
 
     public static int getResourceId(ClassLoader loader, String _package, String id, Type type) {
-        int resId = 0;
+        String clazz = _package + SwitcherHelper.getType(type);
+        String key = String.format("%s.%s", clazz, id);
+        int resId = Resource.get(key);
+        if (resId != 0)
+            return resId;
         try {
-            Class<?> loadClass = loader != null ? loader.loadClass(_package + SwitcherHelper.getType(type)) : Class.forName(_package + SwitcherHelper.getType(type));
+            Class<?> loadClass = loader != null ? loader.loadClass(clazz) : Class.forName(clazz);
             Field field = loadClass.getDeclaredField(id);
             resId = (int) field.get(null);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Resource.put(key, resId);
         return resId;
     }
 

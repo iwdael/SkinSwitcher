@@ -18,18 +18,6 @@ public class SkinAttr {
         this.type = type;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
     @Override
     public String toString() {
         return "{" +

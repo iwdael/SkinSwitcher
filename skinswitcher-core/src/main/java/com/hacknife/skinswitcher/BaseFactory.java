@@ -1,4 +1,4 @@
-package com.hacknife.skinswitcher.core;
+package com.hacknife.skinswitcher;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,8 +11,7 @@ import androidx.appcompat.widget.VectorEnabledTintResources;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 
-import com.hacknife.skinswitcher.SkinSwitcher;
-import com.hacknife.skinswitcher.SkinSwitcherAdapter;
+import com.hacknife.skinswitcher.annotation.Switcher;
 import com.hacknife.skinswitcher.entity.SkinAttr;
 import com.hacknife.skinswitcher.entity.Type;
 import com.hacknife.skinswitcher.helper.SwitcherHelper;
@@ -27,11 +26,12 @@ import java.util.List;
  * github  : http://github.com/hacknife
  * project : SkinSwitcher
  */
-public abstract class BaseFactory implements Factory {
+abstract class BaseFactory implements Factory, OnSkinSwitcherListener {
 
-    protected List<SkinSwitcherAdapter> switcherAdapters = new ArrayList<>();
-    protected List<SkinView> skinViews = new ArrayList<>();
-    protected int refresh = 0;
+    List<SkinSwitcherAdapter> switcherAdapters = new ArrayList<>();
+    List<SkinView> skinViews = new ArrayList<>();
+    private int refresh = 0;
+    Lifecycle.Event lifeEvent = Lifecycle.Event.ON_ANY;
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -52,8 +52,22 @@ public abstract class BaseFactory implements Factory {
 
     @Override
     public void onStateChanged(@NonNull LifecycleOwner source, @NonNull Lifecycle.Event event) {
-        if (event != Lifecycle.Event.ON_START) return;
-        skinSwitch(++refresh);
+        lifeEvent = event;
+        if (event == Lifecycle.Event.ON_CREATE) {
+            skinSwitch(++refresh);
+            SkinSwitcherConfig.registerSkinSwitcherListener(this);
+        } else if (event == Lifecycle.Event.ON_START) {
+            skinSwitch(refresh);
+        } else if (event == Lifecycle.Event.ON_DESTROY) {
+            SkinSwitcherConfig.unRegisterSkinSwitcherListener(this);
+        }
+    }
+
+    @Override
+    public void onSwitch() {
+        ++refresh;
+        if (lifeEvent != Lifecycle.Event.ON_RESUME) return;
+        skinSwitch(refresh);
     }
 
     private void skinSwitch(int refresh) {

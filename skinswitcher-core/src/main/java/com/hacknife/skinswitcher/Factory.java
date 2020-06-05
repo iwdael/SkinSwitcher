@@ -1,4 +1,4 @@
-package com.hacknife.skinswitcher.core;
+package com.hacknife.skinswitcher;
 
 import android.view.LayoutInflater;
 
