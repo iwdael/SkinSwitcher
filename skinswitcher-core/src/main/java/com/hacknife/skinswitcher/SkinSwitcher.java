@@ -5,7 +5,12 @@ import android.view.LayoutInflater;
 
 import java.util.Arrays;
 import java.util.List;
-
+/**
+ * author  : Hacknife
+ * e-mail  : hacknife@outlook.com
+ * github  : http://github.com/hacknife
+ * project : SkinSwitcher
+ */
 public class SkinSwitcher {
     public static void addSkinSwitcherAdapter(SkinSwitcherAdapter... adapter) {
         SkinSwitcherConfig.get().adapters.addAll(Arrays.asList(adapter));

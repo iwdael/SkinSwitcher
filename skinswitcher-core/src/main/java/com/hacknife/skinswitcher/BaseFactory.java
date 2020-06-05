@@ -10,8 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.VectorEnabledTintResources;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
-
-import com.hacknife.skinswitcher.annotation.Switcher;
 import com.hacknife.skinswitcher.entity.SkinAttr;
 import com.hacknife.skinswitcher.entity.Type;
 import com.hacknife.skinswitcher.helper.SwitcherHelper;
