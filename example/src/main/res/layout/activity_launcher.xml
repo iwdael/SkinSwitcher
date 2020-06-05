@@ -11,6 +11,7 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/ll_click"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/default_background"

@@ -1,7 +1,11 @@
 package com.hacknife.example.ui;
 
+import android.view.LayoutInflater;
+import android.view.View;
+
 import com.hacknife.example.R;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,5 +53,14 @@ public class LauncherActivity extends BaseActivity<ILauncherViewModel, ActivityL
         list.add(new Message("F"));
         list.add(new Message("G"));
         adapter.bindData(list);
+        binding.llClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                View view = LayoutInflater.from(LauncherActivity.this).inflate(R.layout.dialog_close, null);
+                AlertDialog dialog = new AlertDialog.Builder(LauncherActivity.this, R.style.common_dialog_transparent_shadowed).create();
+                dialog.show();
+                dialog.setContentView(R.layout.dialog_close); 
+            }
+        });
     }
 }

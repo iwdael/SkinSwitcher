@@ -4,12 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.VectorEnabledTintResources;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
+
 import com.hacknife.skinswitcher.entity.SkinAttr;
 import com.hacknife.skinswitcher.entity.Type;
 import com.hacknife.skinswitcher.helper.SwitcherHelper;
@@ -123,6 +125,7 @@ abstract class BaseFactory implements Factory, OnSkinSwitcherListener {
             String id = attributeSet.getAttributeValue(i);
             if (!id.contains("@")) continue;
             int resId = Integer.parseInt(id.replace("@", ""));
+            if (resId == 0) continue;
             String value = context.getResources().getResourceEntryName(resId);
             String typeName = context.getResources().getResourceTypeName(resId);
             Type type = SwitcherHelper.getType(typeName);
