@@ -13,7 +13,7 @@ import com.hacknife.skinswitcher.SkinSwitcherFactory;
  * github  : http://github.com/hacknife
  * project : SkinSwitcher
  */
-public interface Factory extends LayoutInflater.Factory2, LifecycleEventObserver {
+public interface Factory extends LayoutInflater.Factory2, LifecycleEventObserver , OnSkinSwitcherListener {
     void skinSwitch();
 
     SkinSwitcherFactory addSkinSwitcherAdapters(SkinSwitcherAdapter... adapters);

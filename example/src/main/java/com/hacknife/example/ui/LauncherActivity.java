@@ -1,22 +1,30 @@
 package com.hacknife.example.ui;
 
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.hacknife.example.R;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatDialog;
 import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hacknife.example.adapter.MessageAdapter;
+import com.hacknife.example.dialog.BaseDialog;
+import com.hacknife.example.dialog.CloseDialog;
 import com.hacknife.example.entity.Message;
 import com.hacknife.example.ui.base.impl.BaseActivity;
 import com.hacknife.example.ui.view.ILauncherView;
 import com.hacknife.example.ui.viewmodel.impl.LauncherViewModel;
 import com.hacknife.example.ui.viewmodel.ILauncherViewModel;
 import com.hacknife.example.databinding.ActivityLauncherBinding;
+import com.hacknife.skinswitcher.SkinSwitcher;
+import com.hacknife.skinswitcher.SkinSwitcherFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,11 +64,12 @@ public class LauncherActivity extends BaseActivity<ILauncherViewModel, ActivityL
         binding.llClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                View view = LayoutInflater.from(LauncherActivity.this).inflate(R.layout.dialog_close, null);
-                AlertDialog dialog = new AlertDialog.Builder(LauncherActivity.this, R.style.common_dialog_transparent_shadowed).create();
-                dialog.show();
-                dialog.setContentView(R.layout.dialog_close); 
+                startActivity(new Intent(LauncherActivity.this, MainActivity.class));
             }
         });
+
+        Context context = this;
+        LayoutInflater inflater = LayoutInflater.from(this);
+        Log.v("TAG", String.format("%d ===== %d", context.hashCode(), inflater.getContext().hashCode()));
     }
 }

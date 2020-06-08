@@ -3,6 +3,7 @@ package com.hacknife.example.adapter;
 import com.hacknife.example.R;
 
 
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.hacknife.example.adapter.viewholder.MessageViewHolder;
@@ -21,12 +22,11 @@ import com.hacknife.skinswitcher.SkinSwitcherFactory;
  * version: 1.0
  */
 public class MessageAdapter extends BaseRecyclerViewAdapter<Message, BaseRecyclerViewHolder> {
-    private SkinSwitcherFactory factory = new SkinSwitcherFactory();
 
 
     @Override
     public BaseRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MessageViewHolder(SkinSwitcher.setFactory(parent.getContext(), factory).inflate(R.layout.item_message, null));
+        return new MessageViewHolder(SkinSwitcher.setFactory2(parent.getContext(), SkinSwitcherFactory.class).inflate(R.layout.item_message, null));
     }
 
 }

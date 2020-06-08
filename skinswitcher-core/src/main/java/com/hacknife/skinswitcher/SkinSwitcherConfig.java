@@ -1,7 +1,9 @@
 package com.hacknife.skinswitcher;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,7 +11,9 @@ import androidx.lifecycle.Lifecycle;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.WeakHashMap;
 
 import static com.hacknife.skinswitcher.helper.ViewInflater.forceSetFactory2;
@@ -25,7 +29,7 @@ public class SkinSwitcherConfig {
 
     protected static volatile SkinSwitcherConfig switcher;
     protected List<SkinSwitcherAdapter> adapters;
-    protected WeakHashMap<String, Factory> hashFactory;
+    protected HashMap<String, Map<String, Factory>> hashFactory;
     protected List<OnSkinSwitcherListener> onSkinSwitcherListeners;
 
     protected static SkinSwitcherConfig get() {
@@ -34,7 +38,7 @@ public class SkinSwitcherConfig {
                 if (switcher == null) {
                     switcher = new SkinSwitcherConfig();
                     switcher.adapters = new ArrayList<>();
-                    switcher.hashFactory = new WeakHashMap<>();
+                    switcher.hashFactory = new HashMap<>();
                     switcher.onSkinSwitcherListeners = new ArrayList<>();
                 }
             }
@@ -53,12 +57,18 @@ public class SkinSwitcherConfig {
         }
     }
 
-    public static void unRegisterSkinSwitcherListener(OnSkinSwitcherListener listener) {
-        get().onSkinSwitcherListeners.remove(listener);
+    public static void unRegisterSkinSwitcherListener(Lifecycle lifecycle) {
+        if (!get().hashFactory.containsKey(String.valueOf(lifecycle.hashCode()))) return;
+        Map<String, Factory> mapF = get().hashFactory.remove(String.valueOf(lifecycle.hashCode()));
+        for (Map.Entry<String, Factory> entry : mapF.entrySet()) {
+            get().onSkinSwitcherListeners.remove(entry.getValue());
+        }
     }
 
-    protected static LayoutInflater setFactory(Lifecycle lifecycle, LayoutInflater inflater, Factory factory) {
+    protected static Factory setFactory(Lifecycle lifecycle, LayoutInflater inflater, Class<? extends Factory> factoryClass) {
+        Factory factory = null;
         try {
+            factory = factoryClass.getConstructor().newInstance();
             Field mFactorySet = LayoutInflater.class.getDeclaredField("mFactorySet");
             mFactorySet.setAccessible(true);
             mFactorySet.set(inflater, false);
@@ -75,13 +85,44 @@ public class SkinSwitcherConfig {
                 forceSetFactory2(inflater, factory);
             }
         }
-        return inflater;
+        Map<String, Factory> mapF;
+        if (get().hashFactory.containsKey(String.valueOf(lifecycle.hashCode())))
+            mapF = get().hashFactory.get(String.valueOf(lifecycle.hashCode()));
+        else {
+            mapF = new HashMap<>();
+            get().hashFactory.put(String.valueOf(lifecycle.hashCode()), mapF);
+        }
+        mapF.put(String.valueOf(inflater.hashCode()), factory);
+        return factory;
     }
 
     protected static Lifecycle context2LifeRecycle(Context context) {
         if (context instanceof AppCompatActivity)
             return ((AppCompatActivity) context).getLifecycle();
+        if (context instanceof ContextWrapper)
+            return context2LifeRecycle(((ContextWrapper) context).getBaseContext());
+        Log.v(SkinSwitcher.TAG, String.format("context(%s) has not a lifecycle !", context.getClass().getSimpleName()));
         return null;
     }
 
+
+    protected static LayoutInflater context2LayoutInflater(Context context) {
+        if (context instanceof AppCompatActivity) {
+            LayoutInflater inflater = ((AppCompatActivity) context).getLayoutInflater();
+            if (inflater != null)
+                return inflater;
+        }
+        Log.v(SkinSwitcher.TAG, String.format("context(%s) has not a LayoutInflater!", context.getClass().getSimpleName()));
+        return LayoutInflater.from(context);
+    }
+
+    public static Factory inflaterHasFactory(LayoutInflater inflater) {
+        Lifecycle lifecycle = context2LifeRecycle(inflater.getContext());
+        if (get().hashFactory.containsKey(String.valueOf(lifecycle.hashCode()))) {
+            Map<String, Factory> map = get().hashFactory.get(String.valueOf(lifecycle.hashCode()));
+            if (map.containsKey(String.valueOf(inflater.hashCode())))
+                return map.get(String.valueOf(inflater.hashCode()));
+        }
+        return null;
+    }
 }

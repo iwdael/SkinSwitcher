@@ -31,7 +31,7 @@ public abstract class BaseActivity<VM extends IBaseViewModel, BINDING extends Vi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SkinSwitcher.setFactory(getLayoutInflater(), new SkinSwitcherFactory());
+        SkinSwitcher.setFactory(getLayoutInflater(), SkinSwitcherFactory.class);
         Immersive.setContentView(this, attachLayoutRes(), attachStatusColor(), attachNavigationColor(), attachStatusEmbed(), attachNavigationEmbed());
         binding = DataBindingUtil.bind(((ViewGroup) findViewById(R.id.immersive_content)).getChildAt(0));
         viewModel = (VM) new ViewModelProvider(this, new ViewModelProvider.Factory() {

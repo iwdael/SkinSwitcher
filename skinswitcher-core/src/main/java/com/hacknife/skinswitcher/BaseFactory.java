@@ -26,7 +26,7 @@ import java.util.List;
  * github  : http://github.com/hacknife
  * project : SkinSwitcher
  */
-abstract class BaseFactory implements Factory, OnSkinSwitcherListener {
+abstract class BaseFactory implements Factory {
 
     List<SkinSwitcherAdapter> switcherAdapters = new ArrayList<>();
     List<SkinView> skinViews = new ArrayList<>();
@@ -59,7 +59,7 @@ abstract class BaseFactory implements Factory, OnSkinSwitcherListener {
         } else if (event == Lifecycle.Event.ON_START) {
             skinSwitch(refresh);
         } else if (event == Lifecycle.Event.ON_DESTROY) {
-            SkinSwitcherConfig.unRegisterSkinSwitcherListener(this);
+            SkinSwitcherConfig.unRegisterSkinSwitcherListener(source.getLifecycle());
         }
     }
 

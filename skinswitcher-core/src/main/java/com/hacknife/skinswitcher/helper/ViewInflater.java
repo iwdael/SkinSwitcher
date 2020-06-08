@@ -40,6 +40,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import static com.hacknife.skinswitcher.SkinSwitcher.TAG;
+
 /**
  * author  : Hacknife
  * e-mail  : hacknife@outlook.com
@@ -162,6 +164,7 @@ public class ViewInflater {
             checkOnClickListener(view, attrs);
         }
         verifyNotNull(view, name);
+//        Log.v(TAG, String.format("create view:%s", view.getClass().getName()));
         return view;
     }
 
@@ -427,7 +430,7 @@ public class ViewInflater {
 
     private static boolean sCheckedField;
     private static Field sLayoutInflaterFactory2Field;
-    private static final String TAG = ViewInflater.class.getName();
+
 
     public static void forceSetFactory2(LayoutInflater inflater, LayoutInflater.Factory2 factory) {
         if (!sCheckedField) {
