@@ -33,10 +33,10 @@ public class SkinSwitcher {
         }
         Factory instanceF = SkinSwitcherConfig.inflaterHasFactory(inflater);
         if (instanceF != null) {
-            Log.v(SkinSwitcher.TAG, String.format("context already has a com.hacknife.skinswitcher.Factory !"));
+            Log.v(SkinSwitcher.TAG, String.format("context already has a Factory !"));
             return instanceF;
         } else {
-            Log.v(SkinSwitcher.TAG, String.format("setFactory2 will replace Factory form %s to com.hacknife.skinswitcher.Factory ! ", inflater.getFactory2().getClass().getSimpleName()));
+            Log.v(SkinSwitcher.TAG, String.format("setFactory2 will replace Factory form %s to Factory !", inflater.getFactory2().getClass().getSimpleName()));
         }
         return SkinSwitcherConfig.setFactory(lifecycle, inflater, factory);
     }
