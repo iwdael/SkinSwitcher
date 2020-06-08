@@ -1,8 +1,7 @@
 package com.hacknife.skinswitcher.helper;
 
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
+
+import android.content.res.Resources;
 
 
 import com.hacknife.skinswitcher.entity.Type;
@@ -97,7 +96,7 @@ public class SwitcherHelper {
         return null;
     }
 
-    public static int getResourceId(ClassLoader loader, String _package, String id, Type type) {
+    public static int str2Id(ClassLoader loader, String _package, String id, Type type) {
         String clazz = _package + SwitcherHelper.getType(type);
         String key = String.format("%s.%s", clazz, id);
         int resId = Resource.get(key);
@@ -114,9 +113,35 @@ public class SwitcherHelper {
         return resId;
     }
 
-    public static String getApkPackageName(Context context, File file) {
-        PackageManager pm = context.getPackageManager();
-        PackageInfo info = pm.getPackageArchiveInfo(file.getAbsolutePath(), PackageManager.GET_ACTIVITIES);
-        return info.packageName;
+
+    public static Object id2Resource(Resources resources, Type type, int id) {
+        if (resources == null) return null;
+        switch (type) {
+            case STYLEABLE:
+            case STYLE:
+            case ATTR:
+                return null;
+            case STRING:
+                return resources.getString(id);
+            case MIPMAP:
+            case DRAWABLE:
+                return resources.getDrawable(id);
+            case LAYOUT:
+                return resources.getLayout(id);
+            case INTEGER:
+                return resources.getInteger(id);
+            case ID:
+                return id;
+            case DIMEN:
+                return resources.getDimension(id);
+            case COLOR:
+                return resources.getColor(id);
+            case BOOL:
+                return resources.getBoolean(id);
+            case ANIM:
+                return resources.getAnimation(id);
+        }
+        return null;
     }
+
 }

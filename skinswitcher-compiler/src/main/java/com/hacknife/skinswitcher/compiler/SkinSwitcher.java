@@ -12,6 +12,7 @@ import com.github.javaparser.ast.expr.InstanceOfExpr;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.MethodReferenceExpr;
+import com.github.javaparser.ast.expr.NullLiteralExpr;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
 import com.github.javaparser.ast.expr.SuperExpr;
 import com.github.javaparser.ast.expr.UnaryExpr;
@@ -72,10 +73,15 @@ public class SkinSwitcher {
     private String _package;
     private Element elementId;
     private Element elementReplace;
+    private Element elementResource;
 
     SkinSwitcher() {
         invoke = new HashMap<>();
         filter = new HashMap<>();
+    }
+
+    public void setElementResource(Element elementResource) {
+        this.elementResource = elementResource;
     }
 
     public void setElementId(Element elementId) {
@@ -183,10 +189,17 @@ public class SkinSwitcher {
         if (elementReplace != null) {
             blockStmt.addStatement(new MethodCallExpr(String.format("String value = %s.%s", elementReplace.getEnclosingElement().toString(), elementReplace.getSimpleName().toString()), parameter(elementReplace)));
         }
+
         if (elementId != null) {
             blockStmt.addStatement(new MethodCallExpr(String.format("int id = %s.%s", elementId.getEnclosingElement().toString(), elementId.getSimpleName().toString()), parameter(elementId)))
                     .addStatement(new IfStmt().setCondition(new BinaryExpr(new IntegerLiteralExpr("id"), new IntegerLiteralExpr(0), EQUALS)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(true))));
         }
+
+        if (elementResource != null) {
+            blockStmt.addStatement(new MethodCallExpr(String.format("Object obj = %s.%s", elementResource.getEnclosingElement().toString(), elementResource.getSimpleName().toString()), parameter(elementResource)))
+                    .addStatement(new IfStmt().setCondition(new BinaryExpr(new IntegerLiteralExpr("obj"), new NullLiteralExpr(), EQUALS)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(true))));
+        }
+
         IfStmt ifStmt = null;
         for (Map.Entry<String, Element> entry : filter.entrySet()) {
             if (ifStmt == null) {

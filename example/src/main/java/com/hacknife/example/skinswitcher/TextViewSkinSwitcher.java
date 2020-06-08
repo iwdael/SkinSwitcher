@@ -16,7 +16,7 @@ class TextViewSkinSwitcher {
     }
 
     @Switcher
-    static void textColor(View view, int id) {
-        ((TextView) view).setTextColor(view.getResources().getColor(id));
+    static void textColor(View view, Object obj) {
+        ((TextView) view).setTextColor((Integer) obj);
     }
 }

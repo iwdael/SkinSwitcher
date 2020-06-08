@@ -43,7 +43,7 @@ public abstract class BaseManager {
     }
 
     protected int getResourceId(Type type, String id) {
-        return SwitcherHelper.getResourceId(mClassLoader, mPackageName, id, type);
+        return SwitcherHelper.str2Id(mClassLoader, mPackageName, id, type);
     }
 
     private AssetManager getAssetManager(String apk) {

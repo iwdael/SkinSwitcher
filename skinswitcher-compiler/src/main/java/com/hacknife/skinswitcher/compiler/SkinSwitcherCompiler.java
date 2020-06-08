@@ -4,6 +4,7 @@ import com.google.auto.service.AutoService;
 import com.hacknife.skinswitcher.annotation.Filter;
 import com.hacknife.skinswitcher.annotation.Id;
 import com.hacknife.skinswitcher.annotation.Replace;
+import com.hacknife.skinswitcher.annotation.Resource;
 import com.hacknife.skinswitcher.annotation.Switcher;
 
 import java.io.Writer;
@@ -38,6 +39,7 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
     protected Map<String, SkinSwitcher> proxyMap = new LinkedHashMap<>();
     protected Element elementId;
     protected Element elementReplace;
+    protected Element elementResource;
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
@@ -46,6 +48,7 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
         supportType.add(Filter.class.getCanonicalName());
         supportType.add(Replace.class.getCanonicalName());
         supportType.add(Id.class.getCanonicalName());
+        supportType.add(Resource.class.getCanonicalName());
         return supportType;
     }
 
@@ -64,6 +67,7 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         proxyMap.clear();
+        processResource(annotations, roundEnv);
         processReplace(annotations, roundEnv);
         processId(annotations, roundEnv);
         processFilter(annotations, roundEnv);
@@ -72,13 +76,20 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
         return true;
     }
 
+    private void processResource(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        Set<? extends Element> resources = roundEnv.getElementsAnnotatedWith(Resource.class);
+        if (resources.size() == 0) return;
+        if (resources.size() > 1)
+            messager.printMessage(Diagnostic.Kind.ERROR, "Source id convert value method more than one !");
+        else elementResource = (Element) resources.toArray()[0];
+    }
+
     private void processId(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         Set<? extends Element> ids = roundEnv.getElementsAnnotatedWith(Id.class);
         if (ids.size() == 0) return;
         if (ids.size() > 1)
             messager.printMessage(Diagnostic.Kind.ERROR, "Source string convert source int method more than one !");
         else elementId = (Element) ids.toArray()[0];
-
     }
 
     private void processReplace(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
@@ -99,6 +110,7 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
             SkinSwitcher adapter;
             if (!proxyMap.containsKey(fullClass)) {
                 adapter = new SkinSwitcher();
+                adapter.setElementResource(elementResource);
                 adapter.setElementId(elementId);
                 adapter.setElementReplace(elementReplace);
                 adapter.setElement((TypeElement) element.getEnclosingElement());
@@ -121,6 +133,7 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
             SkinSwitcher adapter;
             if (!proxyMap.containsKey(fullClass)) {
                 adapter = new SkinSwitcher();
+                adapter.setElementResource(elementResource);
                 adapter.setElementId(elementId);
                 adapter.setElementReplace(elementReplace);
                 adapter.setElement((TypeElement) element.getEnclosingElement());

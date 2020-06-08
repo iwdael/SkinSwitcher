@@ -21,7 +21,7 @@ class ViewSkinSwitcher {
     }
 
     @Switcher
-    static void background(View view, int id) {
-        view.setBackgroundResource(id);
+    static void background(View view, Object obj) {
+        view.setBackgroundColor((Integer) obj);
     }
 }
