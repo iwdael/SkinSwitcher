@@ -22,7 +22,7 @@ class ViewSkinSwitcher {
     }
 
     @Switcher
-    static void background(View view, int val) {
-        view.setBackgroundColor(val);
+    static void background(View view, int resource) {
+        view.setBackgroundColor(resource);
     }
 }

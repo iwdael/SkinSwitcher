@@ -101,15 +101,18 @@ abstract class BaseFactory implements Factory {
         }
 
         public void skinSwitch() {
-            List<SkinSwitcherAdapter> adapters = SkinSwitcher.skinSwitcherAdapters();
-            for (SkinSwitcherAdapter adapter : adapters) {
-                for (SkinAttr attr : attrs) {
-                    if (adapter.switcher(view, name, attr.name, attr.value, attr.type)) return;
+            for (SkinAttr attr : attrs) {
+                boolean switcher = false;
+                List<SkinSwitcherAdapter> adapters = SkinSwitcher.skinSwitcherAdapters();
+                for (SkinSwitcherAdapter adapter : adapters) {
+                    if (adapter.switcher(view, name, attr.name, attr.value, attr.type)) {
+                        switcher = true;
+                        break;
+                    }
                 }
-            }
-            List<SkinSwitcherAdapter> skinSwitcherAdapters = switcherAdapters;
-            for (SkinSwitcherAdapter adapter : skinSwitcherAdapters) {
-                for (SkinAttr attr : attrs) {
+                if (switcher) continue;
+                List<SkinSwitcherAdapter> skinSwitcherAdapters = switcherAdapters;
+                for (SkinSwitcherAdapter adapter : skinSwitcherAdapters) {
                     if (adapter.switcher(view, name, attr.name, attr.value, attr.type)) return;
                 }
             }

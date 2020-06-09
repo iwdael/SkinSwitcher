@@ -191,7 +191,7 @@ public class SkinSwitcher {
     private BlockStmt createSwitcher() {
         BlockStmt blockStmt = new BlockStmt();
         if (elementDefaultFilter != null) {
-            blockStmt.addStatement(new IfStmt().setCondition(new UnaryExpr(new MethodCallExpr(String.format("%s.%s", elementDefaultFilter.getEnclosingElement().toString(), elementDefaultFilter.getSimpleName().toString()), parameter(elementDefaultFilter, elementReplace != null)), LOGICAL_COMPLEMENT)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(true))));
+            blockStmt.addStatement(new IfStmt().setCondition(new UnaryExpr(new MethodCallExpr(String.format("%s.%s", elementDefaultFilter.getEnclosingElement().toString(), elementDefaultFilter.getSimpleName().toString()), parameter(elementDefaultFilter, elementReplace != null)), LOGICAL_COMPLEMENT)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(false))));
         }
         if (Helper.annotationVal(element.getAnnotation(Target.class)) != null)
             blockStmt.addStatement(new IfStmt().setCondition(new UnaryExpr(new EnclosedExpr(new InstanceOfExpr().setExpression("view").setType(Helper.annotationVal(element.getAnnotation(Target.class)))), LOGICAL_COMPLEMENT)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(false))));
@@ -207,8 +207,8 @@ public class SkinSwitcher {
         }
 
         if (elementResource != null) {
-            blockStmt.addStatement(new MethodCallExpr(String.format("Object val = %s.%s", elementResource.getEnclosingElement().toString(), elementResource.getSimpleName().toString()), parameter(elementResource)))
-                    .addStatement(new IfStmt().setCondition(new BinaryExpr(new IntegerLiteralExpr("val"), new NullLiteralExpr(), EQUALS)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(true))));
+            blockStmt.addStatement(new MethodCallExpr(String.format("Object resource = %s.%s", elementResource.getEnclosingElement().toString(), elementResource.getSimpleName().toString()), parameter(elementResource)))
+                    .addStatement(new IfStmt().setCondition(new BinaryExpr(new IntegerLiteralExpr("resource"), new NullLiteralExpr(), EQUALS)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(true))));
 
         }
 
@@ -232,10 +232,11 @@ public class SkinSwitcher {
     private BlockStmt createFilter() {
         BlockStmt blockStmt = new BlockStmt();
         if (elementDefaultFilter != null) {
-            blockStmt.addStatement(new IfStmt().setCondition(new UnaryExpr(new MethodCallExpr(String.format("%s.%s", elementDefaultFilter.getEnclosingElement().toString(), elementDefaultFilter.getSimpleName().toString()), parameter(elementDefaultFilter)), LOGICAL_COMPLEMENT)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(true))));
+            blockStmt.addStatement(new IfStmt().setCondition(new UnaryExpr(new MethodCallExpr(String.format("%s.%s", elementDefaultFilter.getEnclosingElement().toString(), elementDefaultFilter.getSimpleName().toString()), parameter(elementDefaultFilter)), LOGICAL_COMPLEMENT)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(false))));
         }
-        if (Helper.annotationVal(element.getAnnotation(Target.class)) != null)
+        if (Helper.annotationVal(element.getAnnotation(Target.class)) != null) {
             blockStmt.addStatement(new IfStmt().setCondition(new UnaryExpr(new EnclosedExpr(new InstanceOfExpr().setExpression("view").setType(Helper.annotationVal(element.getAnnotation(Target.class)))), LOGICAL_COMPLEMENT)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(false))));
+        }
         IfStmt ifStmt = null;
         for (Map.Entry<String, Element> entry : filter.entrySet()) {
             if (ifStmt == null) {

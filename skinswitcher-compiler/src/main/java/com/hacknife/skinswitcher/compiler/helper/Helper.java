@@ -36,7 +36,7 @@ public class Helper {
                     } else {
                         parameterExpression[i] = parseExpression(parameters[i]);
                     }
-                } else if (parameters[i].equals("val")) {
+                } else if (parameters[i].equals("resource")) {
                     parameterExpression[i] = new CastExpr(new TypeParameter(typeArguments(element.asType())[i]), parseExpression(parameters[i]));
                 } else if (parameters[i].equals("view")) {
                     parameterExpression[i] = new CastExpr(new TypeParameter(typeArguments(element.asType())[i]), parseExpression(parameters[i]));

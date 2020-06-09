@@ -1,6 +1,6 @@
 include ':example'
 include ':skinswitcher-core'
-include ':skinswitcher-res'
+include ':skinswitcher-plugin'
 include ':skinswitcher-helper'
 include ':skinswitcher-annotation'
 include ':skinswitcher-compiler'

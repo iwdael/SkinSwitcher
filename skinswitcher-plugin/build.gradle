@@ -19,7 +19,7 @@ dependencies {
 publish {
     userOrg = 'hacknife'
     groupId = 'com.hacknife.skinswitcher'
-    artifactId = 'skinswitcher-res'
+    artifactId = 'skinswitcher-plugin'
     publishVersion = "${bintray_ver}"
     bintrayUser = 'hacknife'
     bintrayKey = "${bintray_key}"
