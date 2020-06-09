@@ -5,5 +5,5 @@ package com.hacknife.skinswitcher.annotation;
  * github  : http://github.com/hacknife
  * project : SkinSwitcher
  */
-public @interface Id {
+public @interface DefaultFilter {
 }

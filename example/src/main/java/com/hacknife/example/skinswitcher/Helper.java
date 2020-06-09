@@ -2,6 +2,7 @@ package com.hacknife.example.skinswitcher;
 
 import android.view.View;
 
+import com.hacknife.skinswitcher.annotation.DefaultFilter;
 import com.hacknife.skinswitcher.annotation.Id;
 import com.hacknife.skinswitcher.annotation.Replace;
 import com.hacknife.skinswitcher.annotation.Resource;
@@ -23,5 +24,10 @@ class Helper {
     @Resource
     static Object id2Resource(View view, Type type, int id) {
         return SwitcherHelper.id2Resource(view.getResources(), type, id);
+    }
+
+    @DefaultFilter
+    static boolean defaultFilter(String value) {
+        return value.contains("default");
     }
 }

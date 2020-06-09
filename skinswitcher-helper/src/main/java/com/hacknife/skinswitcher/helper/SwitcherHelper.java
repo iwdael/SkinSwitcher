@@ -5,8 +5,6 @@ import android.content.res.Resources;
 
 
 import com.hacknife.skinswitcher.entity.Type;
-
-import java.io.File;
 import java.lang.reflect.Field;
 
 /**

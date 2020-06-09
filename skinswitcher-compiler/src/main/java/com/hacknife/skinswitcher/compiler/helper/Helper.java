@@ -1,11 +1,15 @@
 package com.hacknife.skinswitcher.compiler.helper;
 
+import com.github.javaparser.ast.expr.CastExpr;
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.type.TypeParameter;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import javax.lang.model.element.Element;
+import javax.lang.model.type.TypeMirror;
 
 import static com.github.javaparser.JavaParser.parseExpression;
 
@@ -32,6 +36,10 @@ public class Helper {
                     } else {
                         parameterExpression[i] = parseExpression(parameters[i]);
                     }
+                } else if (parameters[i].equals("val")) {
+                    parameterExpression[i] = new CastExpr(new TypeParameter(typeArguments(element.asType())[i]), parseExpression(parameters[i]));
+                } else if (parameters[i].equals("view")) {
+                    parameterExpression[i] = new CastExpr(new TypeParameter(typeArguments(element.asType())[i]), parseExpression(parameters[i]));
                 } else {
                     parameterExpression[i] = parseExpression(parameters[i]);
                 }
@@ -44,7 +52,19 @@ public class Helper {
     }
 
     public static <T extends Annotation> String annotationVal(T annotation) {
-         if (annotation == null) return null;
+        if (annotation == null) return null;
         return annotation.toString().substring(annotation.toString().indexOf("=") + 1, annotation.toString().indexOf(")"));
+    }
+
+
+    public static String[] typeArguments(TypeMirror type) {
+        try {
+            Field field = type.getClass().getDeclaredField("argtypes");
+            field.setAccessible(true);
+            return field.get(type).toString().split(",");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new String[0];
     }
 }

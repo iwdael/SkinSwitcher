@@ -1,6 +1,7 @@
 package com.hacknife.example.skinswitcher;
 
 import android.view.View;
+import android.widget.TextView;
 
 import com.hacknife.skinswitcher.annotation.Filter;
 import com.hacknife.skinswitcher.annotation.Switcher;
@@ -21,7 +22,7 @@ class ViewSkinSwitcher {
     }
 
     @Switcher
-    static void background(View view, Object obj) {
-        view.setBackgroundColor((Integer) obj);
+    static void background(View view, int val) {
+        view.setBackgroundColor(val);
     }
 }

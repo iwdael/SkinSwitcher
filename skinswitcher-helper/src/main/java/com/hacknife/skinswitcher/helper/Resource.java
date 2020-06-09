@@ -1,7 +1,12 @@
 package com.hacknife.skinswitcher.helper;
 
 import java.util.HashMap;
-
+/**
+ * author  : Hacknife
+ * e-mail  : hacknife@outlook.com
+ * github  : http://github.com/hacknife
+ * project : SkinSwitcher
+ */
 public class Resource {
     private static volatile Resource resource;
     private HashMap<String, Integer> resourceMap;

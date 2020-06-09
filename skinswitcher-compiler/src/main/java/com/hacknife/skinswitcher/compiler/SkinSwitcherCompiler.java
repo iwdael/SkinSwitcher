@@ -1,6 +1,7 @@
 package com.hacknife.skinswitcher.compiler;
 
 import com.google.auto.service.AutoService;
+import com.hacknife.skinswitcher.annotation.DefaultFilter;
 import com.hacknife.skinswitcher.annotation.Filter;
 import com.hacknife.skinswitcher.annotation.Id;
 import com.hacknife.skinswitcher.annotation.Replace;
@@ -40,6 +41,7 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
     protected Element elementId;
     protected Element elementReplace;
     protected Element elementResource;
+    protected Element elementDefaultFilter;
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
@@ -49,6 +51,7 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
         supportType.add(Replace.class.getCanonicalName());
         supportType.add(Id.class.getCanonicalName());
         supportType.add(Resource.class.getCanonicalName());
+        supportType.add(DefaultFilter.class.getCanonicalName());
         return supportType;
     }
 
@@ -61,12 +64,12 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
         messager = processingEnv.getMessager();
-
     }
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         proxyMap.clear();
+        processDefaultFilter(annotations, roundEnv);
         processResource(annotations, roundEnv);
         processReplace(annotations, roundEnv);
         processId(annotations, roundEnv);
@@ -74,6 +77,14 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
         processSwitcher(annotations, roundEnv);
         process();
         return true;
+    }
+
+    private void processDefaultFilter(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        Set<? extends Element> defaultFilters = roundEnv.getElementsAnnotatedWith(DefaultFilter.class);
+        if (defaultFilters.size() == 0) return;
+        if (defaultFilters.size() > 1)
+            messager.printMessage(Diagnostic.Kind.ERROR, "default filter method more than one !");
+        else elementDefaultFilter = (Element) defaultFilters.toArray()[0];
     }
 
     private void processResource(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
@@ -110,6 +121,7 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
             SkinSwitcher adapter;
             if (!proxyMap.containsKey(fullClass)) {
                 adapter = new SkinSwitcher();
+                adapter.setElementDefaultFilter(elementDefaultFilter);
                 adapter.setElementResource(elementResource);
                 adapter.setElementId(elementId);
                 adapter.setElementReplace(elementReplace);
@@ -133,6 +145,7 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
             SkinSwitcher adapter;
             if (!proxyMap.containsKey(fullClass)) {
                 adapter = new SkinSwitcher();
+                adapter.setElementDefaultFilter(elementDefaultFilter);
                 adapter.setElementResource(elementResource);
                 adapter.setElementId(elementId);
                 adapter.setElementReplace(elementReplace);

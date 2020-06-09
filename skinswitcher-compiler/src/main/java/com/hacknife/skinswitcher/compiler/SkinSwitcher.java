@@ -25,6 +25,7 @@ import com.github.javaparser.ast.type.TypeParameter;
 import com.hacknife.skinswitcher.annotation.Target;
 import com.hacknife.skinswitcher.compiler.helper.Helper;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -74,6 +75,7 @@ public class SkinSwitcher {
     private Element elementId;
     private Element elementReplace;
     private Element elementResource;
+    private Element elementDefaultFilter;
 
     SkinSwitcher() {
         invoke = new HashMap<>();
@@ -82,6 +84,10 @@ public class SkinSwitcher {
 
     public void setElementResource(Element elementResource) {
         this.elementResource = elementResource;
+    }
+
+    public void setElementDefaultFilter(Element elementDefaultFilter) {
+        this.elementDefaultFilter = elementDefaultFilter;
     }
 
     public void setElementId(Element elementId) {
@@ -184,8 +190,13 @@ public class SkinSwitcher {
 
     private BlockStmt createSwitcher() {
         BlockStmt blockStmt = new BlockStmt();
+        if (elementDefaultFilter != null) {
+            blockStmt.addStatement(new IfStmt().setCondition(new UnaryExpr(new MethodCallExpr(String.format("%s.%s", elementDefaultFilter.getEnclosingElement().toString(), elementDefaultFilter.getSimpleName().toString()), parameter(elementDefaultFilter, elementReplace != null)), LOGICAL_COMPLEMENT)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(true))));
+        }
         if (Helper.annotationVal(element.getAnnotation(Target.class)) != null)
             blockStmt.addStatement(new IfStmt().setCondition(new UnaryExpr(new EnclosedExpr(new InstanceOfExpr().setExpression("view").setType(Helper.annotationVal(element.getAnnotation(Target.class)))), LOGICAL_COMPLEMENT)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(false))));
+
+
         if (elementReplace != null) {
             blockStmt.addStatement(new MethodCallExpr(String.format("String value = %s.%s", elementReplace.getEnclosingElement().toString(), elementReplace.getSimpleName().toString()), parameter(elementReplace)));
         }
@@ -196,8 +207,9 @@ public class SkinSwitcher {
         }
 
         if (elementResource != null) {
-            blockStmt.addStatement(new MethodCallExpr(String.format("Object obj = %s.%s", elementResource.getEnclosingElement().toString(), elementResource.getSimpleName().toString()), parameter(elementResource)))
-                    .addStatement(new IfStmt().setCondition(new BinaryExpr(new IntegerLiteralExpr("obj"), new NullLiteralExpr(), EQUALS)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(true))));
+            blockStmt.addStatement(new MethodCallExpr(String.format("Object val = %s.%s", elementResource.getEnclosingElement().toString(), elementResource.getSimpleName().toString()), parameter(elementResource)))
+                    .addStatement(new IfStmt().setCondition(new BinaryExpr(new IntegerLiteralExpr("val"), new NullLiteralExpr(), EQUALS)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(true))));
+
         }
 
         IfStmt ifStmt = null;
@@ -219,6 +231,9 @@ public class SkinSwitcher {
 
     private BlockStmt createFilter() {
         BlockStmt blockStmt = new BlockStmt();
+        if (elementDefaultFilter != null) {
+            blockStmt.addStatement(new IfStmt().setCondition(new UnaryExpr(new MethodCallExpr(String.format("%s.%s", elementDefaultFilter.getEnclosingElement().toString(), elementDefaultFilter.getSimpleName().toString()), parameter(elementDefaultFilter)), LOGICAL_COMPLEMENT)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(true))));
+        }
         if (Helper.annotationVal(element.getAnnotation(Target.class)) != null)
             blockStmt.addStatement(new IfStmt().setCondition(new UnaryExpr(new EnclosedExpr(new InstanceOfExpr().setExpression("view").setType(Helper.annotationVal(element.getAnnotation(Target.class)))), LOGICAL_COMPLEMENT)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(false))));
         IfStmt ifStmt = null;
