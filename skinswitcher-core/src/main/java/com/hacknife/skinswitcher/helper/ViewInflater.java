@@ -64,12 +64,12 @@ public class ViewInflater {
     private static final Map<String, Constructor<? extends View>> sConstructorMap
             = new ArrayMap<>();
 
-    private final Object[] mConstructorArgs = new Object[2];
+    private static final Object[] mConstructorArgs = new Object[2];
 
     @SuppressLint("RestrictedApi")
-    public View createView(View parent, final String name, @NonNull Context context,
-                           @NonNull AttributeSet attrs, boolean inheritContext,
-                           boolean readAndroidTheme, boolean readAppTheme, boolean wrapContext) {
+    public static View createView(View parent, final String name, @NonNull Context context,
+                                  @NonNull AttributeSet attrs, boolean inheritContext,
+                                  boolean readAndroidTheme, boolean readAppTheme, boolean wrapContext) {
         final Context originalContext = context;
 
         // We can emulate Lollipop's android:theme attribute propagating down the view hierarchy
@@ -169,90 +169,89 @@ public class ViewInflater {
     }
 
     @NonNull
-    protected AppCompatTextView createTextView(Context context, AttributeSet attrs) {
+    protected static AppCompatTextView createTextView(Context context, AttributeSet attrs) {
         return new AppCompatTextView(context, attrs);
     }
 
     @NonNull
-    protected AppCompatImageView createImageView(Context context, AttributeSet attrs) {
+    protected static AppCompatImageView createImageView(Context context, AttributeSet attrs) {
         return new AppCompatImageView(context, attrs);
     }
 
     @NonNull
-    protected AppCompatButton createButton(Context context, AttributeSet attrs) {
+    protected static AppCompatButton createButton(Context context, AttributeSet attrs) {
         return new AppCompatButton(context, attrs);
     }
 
     @NonNull
-    protected AppCompatEditText createEditText(Context context, AttributeSet attrs) {
+    protected static AppCompatEditText createEditText(Context context, AttributeSet attrs) {
         return new AppCompatEditText(context, attrs);
     }
 
     @NonNull
-    protected AppCompatSpinner createSpinner(Context context, AttributeSet attrs) {
+    protected static AppCompatSpinner createSpinner(Context context, AttributeSet attrs) {
         return new AppCompatSpinner(context, attrs);
     }
 
     @NonNull
-    protected AppCompatImageButton createImageButton(Context context, AttributeSet attrs) {
+    protected static AppCompatImageButton createImageButton(Context context, AttributeSet attrs) {
         return new AppCompatImageButton(context, attrs);
     }
 
     @NonNull
-    protected AppCompatCheckBox createCheckBox(Context context, AttributeSet attrs) {
+    protected static AppCompatCheckBox createCheckBox(Context context, AttributeSet attrs) {
         return new AppCompatCheckBox(context, attrs);
     }
 
     @NonNull
-    protected AppCompatRadioButton createRadioButton(Context context, AttributeSet attrs) {
+    protected static AppCompatRadioButton createRadioButton(Context context, AttributeSet attrs) {
         return new AppCompatRadioButton(context, attrs);
     }
 
     @NonNull
-    protected AppCompatCheckedTextView createCheckedTextView(Context context, AttributeSet attrs) {
+    protected static AppCompatCheckedTextView createCheckedTextView(Context context, AttributeSet attrs) {
         return new AppCompatCheckedTextView(context, attrs);
     }
 
     @NonNull
-    protected AppCompatAutoCompleteTextView createAutoCompleteTextView(Context context,
-                                                                       AttributeSet attrs) {
+    protected static AppCompatAutoCompleteTextView createAutoCompleteTextView(Context context,
+                                                                              AttributeSet attrs) {
         return new AppCompatAutoCompleteTextView(context, attrs);
     }
 
     @NonNull
-    protected AppCompatMultiAutoCompleteTextView createMultiAutoCompleteTextView(Context context,
-                                                                                 AttributeSet attrs) {
+    protected static AppCompatMultiAutoCompleteTextView createMultiAutoCompleteTextView(Context context,
+                                                                                        AttributeSet attrs) {
         return new AppCompatMultiAutoCompleteTextView(context, attrs);
     }
 
     @NonNull
-    protected AppCompatRatingBar createRatingBar(Context context, AttributeSet attrs) {
+    protected static AppCompatRatingBar createRatingBar(Context context, AttributeSet attrs) {
         return new AppCompatRatingBar(context, attrs);
     }
 
     @NonNull
-    protected AppCompatSeekBar createSeekBar(Context context, AttributeSet attrs) {
+    protected static AppCompatSeekBar createSeekBar(Context context, AttributeSet attrs) {
         return new AppCompatSeekBar(context, attrs);
     }
 
     @NonNull
-    protected AppCompatToggleButton createToggleButton(Context context, AttributeSet attrs) {
+    protected static AppCompatToggleButton createToggleButton(Context context, AttributeSet attrs) {
         return new AppCompatToggleButton(context, attrs);
     }
 
-    private void verifyNotNull(View view, String name) {
+    private static void verifyNotNull(View view, String name) {
         if (view == null) {
-            throw new IllegalStateException(this.getClass().getName()
-                    + " asked to inflate view for <" + name + ">, but returned null");
+            throw new IllegalStateException(ViewInflater.class.getName() + " asked to inflate view for <" + name + ">, but returned null");
         }
     }
 
     @Nullable
-    protected View createView(Context context, String name, AttributeSet attrs) {
+    protected static View createView(Context context, String name, AttributeSet attrs) {
         return null;
     }
 
-    private View createViewFromTag(Context context, String name, AttributeSet attrs) {
+    private static View createViewFromTag(Context context, String name, AttributeSet attrs) {
         if (name.equals("view")) {
             name = attrs.getAttributeValue(null, "class");
         }
@@ -288,7 +287,7 @@ public class ViewInflater {
      * backports new framework functionality to traverse the Context wrappers to find a
      * suitable target.
      */
-    private void checkOnClickListener(View view, AttributeSet attrs) {
+    private static void checkOnClickListener(View view, AttributeSet attrs) {
         final Context context = view.getContext();
 
         if (!(context instanceof ContextWrapper) ||
@@ -307,8 +306,7 @@ public class ViewInflater {
         a.recycle();
     }
 
-    private View createViewByPrefix(Context context, String name, String prefix)
-            throws ClassNotFoundException, InflateException {
+    private static View createViewByPrefix(Context context, String name, String prefix) throws InflateException {
         Constructor<? extends View> constructor = sConstructorMap.get(name);
 
         try {
@@ -325,8 +323,7 @@ public class ViewInflater {
             constructor.setAccessible(true);
             return constructor.newInstance(mConstructorArgs);
         } catch (Exception e) {
-            // We do not want to catch these, lets return null and let the actual LayoutInflater
-            // try
+            e.printStackTrace();
             return null;
         }
     }

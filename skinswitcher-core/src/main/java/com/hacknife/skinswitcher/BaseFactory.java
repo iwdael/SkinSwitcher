@@ -36,7 +36,7 @@ abstract class BaseFactory implements Factory {
     @Override
     public View onCreateView(View parent, String name, Context context, AttributeSet attributeSet) {
         if ("fragment".equals(name)) return null;
-        View view = new ViewInflater().createView(parent, name, context, attributeSet, false, Build.VERSION.SDK_INT < 21, true, VectorEnabledTintResources.shouldBeUsed());
+        View view = ViewInflater.createView(parent, name, context, attributeSet, false, Build.VERSION.SDK_INT < 21, true, VectorEnabledTintResources.shouldBeUsed());
         if (view == null) return null;
         List<SkinAttr> attrs = parseSkinView(context, view, name, attributeSet);
         if (attrs.isEmpty()) return view;
