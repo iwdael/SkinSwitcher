@@ -323,7 +323,10 @@ public class ViewInflater {
             constructor.setAccessible(true);
             return constructor.newInstance(mConstructorArgs);
         } catch (Exception e) {
-            e.printStackTrace();
+            if (e instanceof ClassNotFoundException)
+                Log.v(TAG, String.format("%s not find [ViewInflater.createViewByPrefix]", prefix != null ? (prefix + name) : name));
+            else
+                e.printStackTrace();
             return null;
         }
     }
