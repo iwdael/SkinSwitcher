@@ -1,7 +1,5 @@
 package com.hacknife.example.skinswitcher;
 
-import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import com.hacknife.skinswitcher.annotation.Filter;

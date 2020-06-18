@@ -5,6 +5,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <style name="common_dialog_transparent_shadowed" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
@@ -14,4 +15,12 @@
     </style>
 
     <color name="transparent">#00FFFFFF</color>
+
+    <attr name="txtColor" format="color" />
+    <declare-styleable name="DefaultTextView">
+        <attr name="txtColor" />
+    </declare-styleable>
+    <declare-styleable name="MarvelTextView">
+        <attr name="txtColor" />
+    </declare-styleable>
 </resources>

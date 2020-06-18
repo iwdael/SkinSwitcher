@@ -5,6 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import static com.hacknife.skinswitcher.annotation.State.none;
+
 /**
  * author  : Hacknife
  * e-mail  : hacknife@outlook.com
@@ -13,5 +15,8 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface Id {
+public @interface Method {
+
+    State value() default none;
+
 }

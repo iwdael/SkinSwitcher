@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SkinSwitcher</string>
+    <string name="skinswitcherview_default">com.hacknife.example.widget.DefaultTextView</string>
+    <string name="skinswitcherview_mav">com.hacknife.example.widget.MarvelTextView</string>
 </resources>

@@ -11,7 +11,13 @@ import java.lang.annotation.Target;
  * github  : http://github.com/hacknife
  * project : SkinSwitcher
  */
+
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface Id {
+@Target(ElementType.TYPE)
+public @interface SwitcherView {
+    int value();
+
+    String proxy();
+
+    boolean defaultView() default false;
 }

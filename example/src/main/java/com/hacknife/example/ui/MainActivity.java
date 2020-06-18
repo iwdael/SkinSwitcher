@@ -7,11 +7,14 @@ import com.hacknife.example.R;
 import androidx.lifecycle.ViewModel;
 
 import com.hacknife.example.dialog.CloseDialog;
+import com.hacknife.example.skinswitcher.Helper;
 import com.hacknife.example.ui.base.impl.BaseActivity;
 import com.hacknife.example.ui.view.IMainView;
 import com.hacknife.example.ui.viewmodel.impl.MainViewModel;
 import com.hacknife.example.ui.viewmodel.IMainViewModel;
 import com.hacknife.example.databinding.ActivityMainBinding;
+import com.hacknife.example.widget.TextViewSkinSwitcherView;
+import com.hacknife.skinswitcher.SkinSwitcher;
 
 /**
  * author : 段泽全(hacknife)
@@ -33,10 +36,12 @@ public class MainActivity extends BaseActivity<IMainViewModel, ActivityMainBindi
 
     @Override
     protected void onReady() {
-        binding.tvContent.setOnClickListener(new View.OnClickListener() {
+        ((TextViewSkinSwitcherView) findViewById(R.id.tv_content)).setText("1231312313123");
+        findViewById(R.id.tv_content).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CloseDialog(MainActivity.this).show();
+                Helper.Skin = "mav";
+                SkinSwitcher.skinSwitch();
             }
         });
     }

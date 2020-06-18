@@ -9,11 +9,12 @@ import com.hacknife.skinswitcher.annotation.Resource;
 import com.hacknife.skinswitcher.entity.Type;
 import com.hacknife.skinswitcher.helper.SwitcherHelper;
 
-class Helper {
+public class Helper {
+    public static String Skin = "default";
 
     @Replace
     static String replace(String originalValue) {
-        return originalValue.replace("default", "mav");
+        return originalValue.replace("default", Skin);
     }
 
     @Id

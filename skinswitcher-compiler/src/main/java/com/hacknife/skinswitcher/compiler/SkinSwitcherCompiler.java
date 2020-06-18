@@ -4,16 +4,22 @@ import com.google.auto.service.AutoService;
 import com.hacknife.skinswitcher.annotation.DefaultFilter;
 import com.hacknife.skinswitcher.annotation.Filter;
 import com.hacknife.skinswitcher.annotation.Id;
+import com.hacknife.skinswitcher.annotation.Method;
 import com.hacknife.skinswitcher.annotation.Replace;
 import com.hacknife.skinswitcher.annotation.Resource;
 import com.hacknife.skinswitcher.annotation.Switcher;
+import com.hacknife.skinswitcher.annotation.SwitcherView;
 
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Messager;
@@ -23,7 +29,6 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.util.Elements;
 
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
@@ -37,7 +42,8 @@ import javax.tools.JavaFileObject;
 @AutoService(Processor.class)
 public class SkinSwitcherCompiler extends AbstractProcessor {
     protected Messager messager;
-    protected Map<String, SkinSwitcher> proxyMap = new LinkedHashMap<>();
+    protected Map<String, SkinSwitcherAdapter> proxySkinSwitcher = new LinkedHashMap<>();
+    protected Map<Integer, SkinSwitcherView> proxyView = new LinkedHashMap<>();
     protected Element elementId;
     protected Element elementReplace;
     protected Element elementResource;
@@ -52,6 +58,7 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
         supportType.add(Id.class.getCanonicalName());
         supportType.add(Resource.class.getCanonicalName());
         supportType.add(DefaultFilter.class.getCanonicalName());
+        supportType.add(SwitcherView.class.getCanonicalName());
         return supportType;
     }
 
@@ -68,18 +75,52 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        proxyMap.clear();
-        processDefaultFilter(annotations, roundEnv);
-        processResource(annotations, roundEnv);
-        processReplace(annotations, roundEnv);
-        processId(annotations, roundEnv);
-        processFilter(annotations, roundEnv);
-        processSwitcher(annotations, roundEnv);
+        proxySkinSwitcher.clear();
+        processDefaultFilter(roundEnv);
+        processResource(roundEnv);
+        processReplace(roundEnv);
+        processId(roundEnv);
+        processFilter(roundEnv);
+        processSwitcher(roundEnv);
+        processProxy(roundEnv);
+        processProxyMethod(roundEnv);
         process();
         return true;
     }
 
-    private void processDefaultFilter(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+    private void processProxyMethod(RoundEnvironment roundEnv) {
+        Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(Method.class);
+        for (Element element : elements) {
+            Collection<SkinSwitcherView> views = proxyView.values();
+            for (SkinSwitcherView view : views) {
+                if (view.contain(element)) {
+                    view.addMethodElement(element);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void processProxy(RoundEnvironment roundEnv) {
+        Set<? extends Element> proxies = roundEnv.getElementsAnnotatedWith(SwitcherView.class);
+        for (Element element : proxies) {
+            SkinSwitcherView view = proxyView.get(element.getAnnotation(SwitcherView.class).value());
+            if (view == null) {
+                view = new SkinSwitcherView();
+                proxyView.put(element.getAnnotation(SwitcherView.class).value(), view);
+                view.setPackage(element.getEnclosingElement().toString());
+            }
+            view.addClassElement(element);
+        }
+        proxyView.values().forEach(new Consumer<SkinSwitcherView>() {
+            @Override
+            public void accept(SkinSwitcherView view) {
+                view.generateInfo(messager);
+            }
+        });
+    }
+
+    private void processDefaultFilter(RoundEnvironment roundEnv) {
         Set<? extends Element> defaultFilters = roundEnv.getElementsAnnotatedWith(DefaultFilter.class);
         if (defaultFilters.size() == 0) return;
         if (defaultFilters.size() > 1)
@@ -87,7 +128,7 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
         else elementDefaultFilter = (Element) defaultFilters.toArray()[0];
     }
 
-    private void processResource(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+    private void processResource(RoundEnvironment roundEnv) {
         Set<? extends Element> resources = roundEnv.getElementsAnnotatedWith(Resource.class);
         if (resources.size() == 0) return;
         if (resources.size() > 1)
@@ -95,7 +136,7 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
         else elementResource = (Element) resources.toArray()[0];
     }
 
-    private void processId(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+    private void processId(RoundEnvironment roundEnv) {
         Set<? extends Element> ids = roundEnv.getElementsAnnotatedWith(Id.class);
         if (ids.size() == 0) return;
         if (ids.size() > 1)
@@ -103,7 +144,7 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
         else elementId = (Element) ids.toArray()[0];
     }
 
-    private void processReplace(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+    private void processReplace(RoundEnvironment roundEnv) {
         Set<? extends Element> replaces = roundEnv.getElementsAnnotatedWith(Replace.class);
         if (replaces.size() == 0) return;
         if (replaces.size() > 1)
@@ -112,23 +153,23 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
 
     }
 
-    private void processSwitcher(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+    private void processSwitcher(RoundEnvironment roundEnv) {
         Set<? extends Element> switchers = roundEnv.getElementsAnnotatedWith(Switcher.class);
         for (Element element : switchers) {
             Switcher switcher = element.getAnnotation(Switcher.class);
             String key = switcher.value().length() == 0 ? element.getSimpleName().toString() : switcher.value();
             String fullClass = element.getEnclosingElement().toString();
-            SkinSwitcher adapter;
-            if (!proxyMap.containsKey(fullClass)) {
-                adapter = new SkinSwitcher();
+            SkinSwitcherAdapter adapter;
+            if (!proxySkinSwitcher.containsKey(fullClass)) {
+                adapter = new SkinSwitcherAdapter();
                 adapter.setElementDefaultFilter(elementDefaultFilter);
                 adapter.setElementResource(elementResource);
                 adapter.setElementId(elementId);
                 adapter.setElementReplace(elementReplace);
                 adapter.setElement((TypeElement) element.getEnclosingElement());
-                proxyMap.put(fullClass, adapter);
+                proxySkinSwitcher.put(fullClass, adapter);
             } else {
-                adapter = proxyMap.get(fullClass);
+                adapter = proxySkinSwitcher.get(fullClass);
             }
             adapter.setFullClass(element.getEnclosingElement().toString());
             if (!adapter.invoke(key, element))
@@ -136,42 +177,43 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
         }
     }
 
-    private void processFilter(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+    private void processFilter(RoundEnvironment roundEnv) {
         Set<? extends Element> filters = roundEnv.getElementsAnnotatedWith(Filter.class);
         for (Element element : filters) {
             Filter filter = element.getAnnotation(Filter.class);
             String key = filter.value().length() == 0 ? element.getSimpleName().toString() : filter.value();
             String fullClass = element.getEnclosingElement().toString();
-            SkinSwitcher adapter;
-            if (!proxyMap.containsKey(fullClass)) {
-                adapter = new SkinSwitcher();
+            SkinSwitcherAdapter adapter;
+            if (!proxySkinSwitcher.containsKey(fullClass)) {
+                adapter = new SkinSwitcherAdapter();
                 adapter.setElementDefaultFilter(elementDefaultFilter);
                 adapter.setElementResource(elementResource);
                 adapter.setElementId(elementId);
                 adapter.setElementReplace(elementReplace);
                 adapter.setElement((TypeElement) element.getEnclosingElement());
-                proxyMap.put(fullClass, adapter);
+                proxySkinSwitcher.put(fullClass, adapter);
             } else {
-                adapter = proxyMap.get(fullClass);
+                adapter = proxySkinSwitcher.get(fullClass);
             }
             adapter.setFullClass(element.getEnclosingElement().toString());
             if (!adapter.filter(key, element))
                 messager.printMessage(Diagnostic.Kind.ERROR, String.format("More than two filter: %s", key));
-
         }
     }
 
 
     private void process() {
-        for (String key : proxyMap.keySet()) {
+        List<SkinSwitcher> adapters = new ArrayList<>();
+        adapters.addAll(proxySkinSwitcher.values());
+        adapters.addAll(proxyView.values());
+        for (SkinSwitcher switcher : adapters) {
             try {
-                SkinSwitcher switcher = proxyMap.get(key);
                 JavaFileObject jfo = processingEnv.getFiler().createSourceFile(
-                        switcher.getAdapterClass(),
+                        switcher.getSkinSwitcherClass(),
                         switcher.getElement()
                 );
                 Writer writer = jfo.openWriter();
-                writer.write(switcher.createAdapter(messager));
+                writer.write(switcher.createSkinSwitcher(messager));
                 writer.flush();
                 writer.close();
             } catch (Exception ignored) {
