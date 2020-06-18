@@ -140,7 +140,14 @@ public class SkinSwitcherView implements SkinSwitcher {
         unit.addImport(SkinSwitcherViewAttribute);
         unit.addImport(AttributeSet);
         unit.addImport(FrameLayout);
+        unit.setBlockComment("Created by http://github.com/hacknife/SkinSwitcher");
         ClassOrInterfaceDeclaration clazzOrInterface = unit.addClass(clazz).addExtendedType("SkinSwitcherView");
+        clazzOrInterface.setBlockComment("*\n" +
+                " * author  : Hacknife\n" +
+                " * e-mail  : hacknife@outlook.com\n" +
+                " * github  : http://github.com/hacknife\n" +
+                " * project : SkinSwitcher\n" +
+                "");
         clazzOrInterface.addField("AttributeSet", "attrs", PRIVATE);
         clazzOrInterface.addField("Context", "context", PRIVATE);
         clazzOrInterface.addField("Map<Integer,SkinSwitcherMethod>", "methods", PRIVATE);
