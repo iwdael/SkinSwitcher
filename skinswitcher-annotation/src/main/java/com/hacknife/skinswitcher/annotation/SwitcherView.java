@@ -18,6 +18,4 @@ public @interface SwitcherView {
     int value();
 
     String proxy();
-
-    boolean defaultView() default false;
 }

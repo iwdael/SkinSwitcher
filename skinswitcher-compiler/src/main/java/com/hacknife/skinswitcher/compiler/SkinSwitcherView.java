@@ -71,7 +71,7 @@ public class SkinSwitcherView implements SkinSwitcher {
 
     List<Element> classElements = new ArrayList<>();
     List<SkinSwitcherMethod> methods = new ArrayList<>();
-    Element defaultView = null;
+
     private String adapterClass;
     private String clazz;
     private String _package;
@@ -118,13 +118,9 @@ public class SkinSwitcherView implements SkinSwitcher {
                 proxy = proxyAnnotation.proxy();
             if (!proxy.equals(proxyAnnotation.proxy()))
                 messager.printMessage(Diagnostic.Kind.ERROR, String.format("The difference of proxy between %s and %s", proxy, proxyAnnotation.proxy()));
-            if (proxyAnnotation.defaultView())
-                defaultView = element;
         }
-        if (defaultView == null)
-            defaultView = classElements.get(0);
-        adapterClass = String.format("%s.%sSkinSwitcherView", _package, proxy);
-        clazz = String.format("%sSkinSwitcherView", proxy);
+        adapterClass = String.format("%s.%sSkinView", _package, proxy);
+        clazz = String.format("%sSkinView", proxy);
     }
 
     @Override

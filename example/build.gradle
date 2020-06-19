@@ -20,5 +20,5 @@ dependencies {
     annotationProcessor project(':skinswitcher-compiler')
     implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha03'
     implementation 'com.hacknife:immersive:1.1.0'
-    implementation 'com.orhanobut:logger:2.2.0'
+//    implementation 'com.orhanobut:logger:2.2.0'
 }

@@ -11,7 +11,6 @@ import com.hacknife.skinswitcher.annotation.Method;
 import com.hacknife.skinswitcher.annotation.State;
 import com.hacknife.skinswitcher.annotation.SwitcherView;
 import com.hacknife.skinswitcher.entity.Attribute;
-import com.orhanobut.logger.Logger;
 
 @SwitcherView(value = 123, proxy = "TextView")
 public class MarvelTextView extends androidx.appcompat.widget.AppCompatTextView implements SkinSwitcherViewAttribute {
@@ -35,7 +34,6 @@ public class MarvelTextView extends androidx.appcompat.widget.AppCompatTextView 
     @Method(State.once)
     public void setText(String text) {
         super.setText(text);
-        Logger.v("MarvelTextView.setText:" + text);
     }
 
     @Override

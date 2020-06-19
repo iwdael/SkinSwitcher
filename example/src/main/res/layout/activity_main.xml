@@ -16,7 +16,7 @@
         android:layout_height="match_parent">
 
 
-        <com.hacknife.example.widget.TextViewSkinSwitcherView
+        <com.hacknife.example.widget.TextViewSkinView
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="40dp"

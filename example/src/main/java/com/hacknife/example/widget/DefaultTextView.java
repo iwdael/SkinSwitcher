@@ -11,11 +11,10 @@ import com.hacknife.skinswitcher.annotation.Method;
 import com.hacknife.skinswitcher.annotation.State;
 import com.hacknife.skinswitcher.annotation.SwitcherView;
 import com.hacknife.skinswitcher.entity.Attribute;
-import com.orhanobut.logger.Logger;
 
 import java.util.Map;
 
-@SwitcherView(value = 123, proxy = "TextView", defaultView = true)
+@SwitcherView(value = 123, proxy = "TextView")
 public class DefaultTextView extends androidx.appcompat.widget.AppCompatTextView implements SkinSwitcherViewAttribute {
     int color;
 
@@ -39,7 +38,6 @@ public class DefaultTextView extends androidx.appcompat.widget.AppCompatTextView
     @Method(State.once)
     public void setText(String text) {
         super.setText(text);
-        Logger.v("DefaultTextView.setText:" + text);
     }
 
 

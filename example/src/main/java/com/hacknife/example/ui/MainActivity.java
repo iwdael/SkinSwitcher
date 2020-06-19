@@ -13,7 +13,8 @@ import com.hacknife.example.ui.view.IMainView;
 import com.hacknife.example.ui.viewmodel.impl.MainViewModel;
 import com.hacknife.example.ui.viewmodel.IMainViewModel;
 import com.hacknife.example.databinding.ActivityMainBinding;
-import com.hacknife.example.widget.TextViewSkinSwitcherView;
+
+import com.hacknife.example.widget.TextViewSkinView;
 import com.hacknife.skinswitcher.SkinSwitcher;
 
 /**
@@ -36,7 +37,7 @@ public class MainActivity extends BaseActivity<IMainViewModel, ActivityMainBindi
 
     @Override
     protected void onReady() {
-        ((TextViewSkinSwitcherView) findViewById(R.id.tv_content)).setText("1231312313123");
+        ((TextViewSkinView) findViewById(R.id.tv_content)).setText("1231312313123");
         findViewById(R.id.tv_content).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
