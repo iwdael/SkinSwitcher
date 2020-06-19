@@ -63,7 +63,7 @@ public class SkinSwitcherView implements SkinSwitcher {
     private static final Expression[] PARAMETERS_2_args = new Expression[]{parseExpression("context"), parseExpression("attrs"), parseExpression("0")};
 
     private static final NodeList<Parameter> PARAMETERS_3 = new NodeList(Arrays.asList(PARAMETER_Context, PARAMETER_AttributeSet, PARAMETER_defStyleAttr));
-    private static final Expression[] PARAMETERS_3_args = new Expression[]{parseExpression("context"), parseExpression("attrs"), parseExpression("defStyleAttr"), parseExpression("0")};
+    private static final Expression[] PARAMETERS_3_args = new Expression[]{parseExpression("context"), parseExpression("attrs"), parseExpression("defStyleAttr") };
 
     private static final NodeList<Parameter> PARAMETERS_4 = new NodeList(Arrays.asList(PARAMETER_Context, PARAMETER_AttributeSet, PARAMETER_defStyleAttr, PARAMETER_defStyleRes));
     private static final Expression[] PARAMETERS_4_args = new Expression[]{parseExpression("context"), parseExpression("attrs"), parseExpression("defStyleAttr"), parseExpression("defStyleRes")};
@@ -148,10 +148,6 @@ public class SkinSwitcherView implements SkinSwitcher {
                 " * github  : http://github.com/hacknife\n" +
                 " * project : SkinSwitcher\n" +
                 "");
-        clazzOrInterface.addField("AttributeSet", "attrs", PRIVATE);
-        clazzOrInterface.addField("Context", "context", PRIVATE);
-        clazzOrInterface.addField("Map<Integer,SkinSwitcherMethod>", "methods", PRIVATE);
-
 
         clazzOrInterface.addConstructor(PUBLIC)
                 .setParameters(PARAMETERS_2)
@@ -159,33 +155,11 @@ public class SkinSwitcherView implements SkinSwitcher {
 
         clazzOrInterface.addConstructor(PUBLIC)
                 .setParameters(PARAMETERS_3)
-                .setBody(new BlockStmt().addStatement(new MethodCallExpr("this", PARAMETERS_3_args)));
+                .setBody(new BlockStmt().addStatement(new MethodCallExpr("super", PARAMETERS_3_args)));
 
-        clazzOrInterface.addConstructor(PUBLIC)
-                .setParameters(PARAMETERS_4)
-                .setBody(new BlockStmt()
-                        .addStatement(new MethodCallExpr("super", PARAMETERS_4_args))
-                        .addStatement(new MethodCallExpr("init", parseExpression("context"), parseExpression("attrs")))
-                );
 
-        clazzOrInterface
-                .addMethod("init", PRIVATE)
-                .setParameters(new NodeList(PARAMETER_Context, PARAMETER_AttributeSet))
-                .setBody(
-                        new BlockStmt()
-                                .addStatement(
-                                        new MethodCallExpr(String.format("view = new %s", defaultView.toString()), parseExpression("context"), parseExpression("attrs"))
-                                )
-                                .addStatement(
-                                        new MethodCallExpr(String.format("LayoutParams layoutParams = new LayoutParams"), parseExpression("LayoutParams.MATCH_PARENT"), parseExpression("LayoutParams.MATCH_PARENT"))
-                                )
-                                .addStatement(
-                                        new MethodCallExpr(String.format("addView"), parseExpression("view"), parseExpression("layoutParams"))
-                                )
-                                .addStatement(new NameExpr(String.format("this.attrs = attrs")))
-                                .addStatement(new NameExpr(String.format("this.context = context")))
-                                .addStatement(new AssignExpr(new NameExpr("methods"), new ObjectCreationExpr().setType("HashMap"), AssignExpr.Operator.ASSIGN))
-                );
+
+
 
         clazzOrInterface.addMethod("setDefaultView", PROTECTED)
                 .setParameters(new NodeList(new Parameter(new TypeParameter("Class<?>"), "defaultView")))
@@ -198,7 +172,7 @@ public class SkinSwitcherView implements SkinSwitcher {
                                                         new BlockStmt()
                                                                 .addStatement(new MethodCallExpr(String.format("view = (View) defaultView.getConstructor(Context.class, AttributeSet.class).newInstance"), parseExpression("this.context"), parseExpression("this.attrs")))
 
-                                                ).setCatchClauses(new NodeList<>(new CatchClause(new Parameter(new TypeParameter("Exception"), "e"), new BlockStmt().addStatement(new MethodCallExpr("e.printStackTrace")))))
+                                                ).setCatchClauses(new NodeList<>(new CatchClause(new Parameter(new TypeParameter("Exception"), "e"), new BlockStmt().addStatement(new MethodCallExpr("throw new RuntimeException",parseExpression("e"))))))
                                 )
                                 .addStatement(new IfStmt().setCondition(parseExpression("view == null")).setThenStmt(new ReturnStmt()))
                                 .addStatement(new IfStmt()

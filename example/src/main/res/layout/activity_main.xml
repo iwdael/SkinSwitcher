@@ -24,6 +24,6 @@
             android:gravity="center"
             android:text="@string/app_name"
             app:txtColor="@color/default_top"
-            app:defaultView="@string/skinswitcherview_default" />
+            app:defaultView="@string/skinswitcherview_mav" />
     </RelativeLayout>
 </layout>
