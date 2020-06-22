@@ -3,6 +3,7 @@ package com.hacknife.skinswitcher;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
+
 import androidx.lifecycle.Lifecycle;
 
 import java.util.Arrays;
@@ -25,13 +26,21 @@ public class SkinSwitcher {
         return SkinSwitcherConfig.get().adapters;
     }
 
+    public static Factory setFactory(Context context, Class<? extends Factory> factory) {
+        return setFactory(SkinSwitcherConfig.context2LayoutInflater(context), factory);
+    }
+
     public static Factory setFactory(LayoutInflater inflater, Class<? extends Factory> factory) {
-        Lifecycle lifecycle = SkinSwitcherConfig.context2LifeRecycle(inflater.getContext());
+        return setFactory(inflater, SkinSwitcherConfig.context2LifeRecycle(inflater.getContext()), factory);
+    }
+
+    public static Factory setFactory(LayoutInflater inflater, Lifecycle lifecycle, Class<? extends Factory> factory) {
+
         if (lifecycle == null) {
             Log.e(SkinSwitcher.TAG, String.format("setFactory: lifecycle not find by layoutInflater!"));
             return null;
         }
-        Factory instanceF = SkinSwitcherConfig.inflaterHasFactory(inflater);
+        Factory instanceF = SkinSwitcherConfig.inflaterHasFactory(lifecycle, inflater);
         if (instanceF != null) {
             Log.v(SkinSwitcher.TAG, String.format("context already has a Factory !"));
             return instanceF;
@@ -41,17 +50,21 @@ public class SkinSwitcher {
         return SkinSwitcherConfig.setFactory(lifecycle, inflater, factory);
     }
 
-    public static Factory setFactory(Context context, Class<? extends Factory> factory) {
-        return setFactory(SkinSwitcherConfig.context2LayoutInflater(context), factory);
+    public static LayoutInflater setFactory2(LayoutInflater inflater, Class<? extends Factory> factory) {
+        return setFactory2(inflater, SkinSwitcherConfig.context2LifeRecycle(inflater.getContext()), factory);
     }
 
-    public static LayoutInflater setFactory2(LayoutInflater inflater, Class<? extends Factory> factory) {
-        Lifecycle lifecycle = SkinSwitcherConfig.context2LifeRecycle(inflater.getContext());
+
+    public static LayoutInflater setFactory2(Context context, Class<? extends Factory> factory) {
+        return setFactory2(SkinSwitcherConfig.context2LayoutInflater(context), factory);
+    }
+
+    public static LayoutInflater setFactory2(LayoutInflater inflater, Lifecycle lifecycle, Class<? extends Factory> factory) {
         if (lifecycle == null) {
             Log.e(SkinSwitcher.TAG, String.format("setFactory2: lifecycle not find by layoutInflater!"));
             return inflater;
         }
-        Factory instanceF = SkinSwitcherConfig.inflaterHasFactory(inflater);
+        Factory instanceF = SkinSwitcherConfig.inflaterHasFactory(lifecycle,inflater);
         if (instanceF != null) {
             Log.v(SkinSwitcher.TAG, String.format("context already has a Factory !"));
             return inflater;
@@ -60,11 +73,6 @@ public class SkinSwitcher {
         }
         SkinSwitcherConfig.setFactory(lifecycle, inflater, factory);
         return inflater;
-    }
-
-
-    public static LayoutInflater setFactory2(Context context, Class<? extends Factory> factory) {
-        return setFactory2(SkinSwitcherConfig.context2LayoutInflater(context), factory);
     }
 
     public static void skinSwitch() {

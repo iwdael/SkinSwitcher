@@ -29,8 +29,10 @@ abstract class BaseFactory implements Factory {
 
     List<SkinSwitcherAdapter> switcherAdapters = new ArrayList<>();
     List<SkinView> skinViews = new ArrayList<>();
-    private int refresh = 0;
+
     Lifecycle.Event lifeEvent = Lifecycle.Event.ON_ANY;
+    int refresh = 0;
+    boolean initRefresh = false;
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -42,10 +44,6 @@ abstract class BaseFactory implements Factory {
         if (attrs.isEmpty()) return view;
         SkinView skinView = new SkinView(view, name, attrs);
         skinViews.add(skinView);
-        if (skinView.refresh != refresh) {
-            skinView.skinSwitch();
-            skinView.refresh = refresh;
-        }
         return view;
     }
 
@@ -56,6 +54,10 @@ abstract class BaseFactory implements Factory {
             skinSwitch(++refresh);
             SkinSwitcherConfig.registerSkinSwitcherListener(this);
         } else if (event == Lifecycle.Event.ON_START) {
+            if (!initRefresh) {
+                initRefresh = true;
+                refresh++;
+            }
             skinSwitch(refresh);
         } else if (event == Lifecycle.Event.ON_DESTROY) {
             SkinSwitcherConfig.unRegisterSkinSwitcherListener(source.getLifecycle());

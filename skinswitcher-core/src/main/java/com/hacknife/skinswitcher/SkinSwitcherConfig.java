@@ -116,8 +116,7 @@ public class SkinSwitcherConfig {
         return LayoutInflater.from(context);
     }
 
-    public static Factory inflaterHasFactory(LayoutInflater inflater) {
-        Lifecycle lifecycle = context2LifeRecycle(inflater.getContext());
+    public static Factory inflaterHasFactory(Lifecycle lifecycle, LayoutInflater inflater) {
         if (get().hashFactory.containsKey(String.valueOf(lifecycle.hashCode()))) {
             Map<String, Factory> map = get().hashFactory.get(String.valueOf(lifecycle.hashCode()));
             if (map.containsKey(String.valueOf(inflater.hashCode())))
