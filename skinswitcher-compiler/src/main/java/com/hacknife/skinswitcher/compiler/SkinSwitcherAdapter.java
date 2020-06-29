@@ -71,6 +71,7 @@ public class SkinSwitcherAdapter implements SkinSwitcher {
     private Element elementReplace;
     private Element elementResource;
     private Element elementDefaultFilter;
+    private Element elementSwitcherChange;
 
     SkinSwitcherAdapter() {
         invoke = new HashMap<>();
@@ -185,6 +186,9 @@ public class SkinSwitcherAdapter implements SkinSwitcher {
 
     private BlockStmt createSwitcher() {
         BlockStmt blockStmt = new BlockStmt();
+        if (elementSwitcherChange != null) {
+            blockStmt.addStatement(new IfStmt().setCondition(new UnaryExpr(new MethodCallExpr(String.format("%s.%s", elementSwitcherChange.getEnclosingElement().toString(), elementSwitcherChange.getSimpleName().toString()), parameter(elementSwitcherChange)), LOGICAL_COMPLEMENT)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(true))));
+        }
         if (elementDefaultFilter != null) {
             blockStmt.addStatement(new IfStmt().setCondition(new UnaryExpr(new MethodCallExpr(String.format("%s.%s", elementDefaultFilter.getEnclosingElement().toString(), elementDefaultFilter.getSimpleName().toString()), parameter(elementDefaultFilter, elementReplace != null)), LOGICAL_COMPLEMENT)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(false))));
         }
@@ -226,6 +230,9 @@ public class SkinSwitcherAdapter implements SkinSwitcher {
 
     private BlockStmt createFilter() {
         BlockStmt blockStmt = new BlockStmt();
+        if (elementSwitcherChange != null) {
+            blockStmt.addStatement(new IfStmt().setCondition(new UnaryExpr(new MethodCallExpr(String.format("%s.%s", elementSwitcherChange.getEnclosingElement().toString(), elementSwitcherChange.getSimpleName().toString()), parameter(elementSwitcherChange)), LOGICAL_COMPLEMENT)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(true))));
+        }
         if (elementDefaultFilter != null) {
             blockStmt.addStatement(new IfStmt().setCondition(new UnaryExpr(new MethodCallExpr(String.format("%s.%s", elementDefaultFilter.getEnclosingElement().toString(), elementDefaultFilter.getSimpleName().toString()), parameter(elementDefaultFilter)), LOGICAL_COMPLEMENT)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(false))));
         }
@@ -261,4 +268,11 @@ public class SkinSwitcherAdapter implements SkinSwitcher {
     }
 
 
+    public void setElementSwitcherChange(Element elementSwitcherChange) {
+        this.elementSwitcherChange = elementSwitcherChange;
+    }
+
+    public Element getElementSwitcherChange() {
+        return elementSwitcherChange;
+    }
 }

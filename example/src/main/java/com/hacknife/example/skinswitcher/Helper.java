@@ -6,11 +6,17 @@ import com.hacknife.skinswitcher.annotation.DefaultFilter;
 import com.hacknife.skinswitcher.annotation.Id;
 import com.hacknife.skinswitcher.annotation.Replace;
 import com.hacknife.skinswitcher.annotation.Resource;
+import com.hacknife.skinswitcher.annotation.SwitcherChange;
 import com.hacknife.skinswitcher.entity.Type;
 import com.hacknife.skinswitcher.helper.SwitcherHelper;
 
 public class Helper {
-    public static String Skin = "default";
+    public static String Skin = "mav";
+
+    @SwitcherChange
+    static boolean switcherChange() {
+        return true;
+    }
 
     @Replace
     static String replace(String originalValue) {

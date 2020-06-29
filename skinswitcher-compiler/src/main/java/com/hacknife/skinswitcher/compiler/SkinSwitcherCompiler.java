@@ -8,6 +8,7 @@ import com.hacknife.skinswitcher.annotation.Method;
 import com.hacknife.skinswitcher.annotation.Replace;
 import com.hacknife.skinswitcher.annotation.Resource;
 import com.hacknife.skinswitcher.annotation.Switcher;
+import com.hacknife.skinswitcher.annotation.SwitcherChange;
 import com.hacknife.skinswitcher.annotation.SwitcherView;
 
 import java.io.Writer;
@@ -48,10 +49,12 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
     protected Element elementReplace;
     protected Element elementResource;
     protected Element elementDefaultFilter;
+    protected Element elementSwitcherChange;
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         HashSet<String> supportType = new LinkedHashSet<>();
+        supportType.add(SwitcherChange.class.getCanonicalName());
         supportType.add(Switcher.class.getCanonicalName());
         supportType.add(Filter.class.getCanonicalName());
         supportType.add(Replace.class.getCanonicalName());
@@ -76,6 +79,7 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         proxySkinSwitcher.clear();
+        processSwitcherChange(roundEnv);
         processDefaultFilter(roundEnv);
         processResource(roundEnv);
         processReplace(roundEnv);
@@ -86,6 +90,14 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
         processProxyMethod(roundEnv);
         process();
         return true;
+    }
+
+    private void processSwitcherChange(RoundEnvironment roundEnv) {
+        Set<? extends Element> switcherChanges = roundEnv.getElementsAnnotatedWith(SwitcherChange.class);
+        if (switcherChanges.size() == 0) return;
+        if (switcherChanges.size() > 1)
+            messager.printMessage(Diagnostic.Kind.ERROR, "Switcher change method more than one !");
+        else elementSwitcherChange = (Element) switcherChanges.toArray()[0];
     }
 
     private void processProxyMethod(RoundEnvironment roundEnv) {
@@ -163,6 +175,7 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
             if (!proxySkinSwitcher.containsKey(fullClass)) {
                 adapter = new SkinSwitcherAdapter();
                 adapter.setElementDefaultFilter(elementDefaultFilter);
+                adapter.setElementSwitcherChange(elementSwitcherChange);
                 adapter.setElementResource(elementResource);
                 adapter.setElementId(elementId);
                 adapter.setElementReplace(elementReplace);
@@ -187,6 +200,7 @@ public class SkinSwitcherCompiler extends AbstractProcessor {
             if (!proxySkinSwitcher.containsKey(fullClass)) {
                 adapter = new SkinSwitcherAdapter();
                 adapter.setElementDefaultFilter(elementDefaultFilter);
+                adapter.setElementSwitcherChange(elementSwitcherChange);
                 adapter.setElementResource(elementResource);
                 adapter.setElementId(elementId);
                 adapter.setElementReplace(elementReplace);

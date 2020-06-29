@@ -3,6 +3,7 @@ package com.hacknife.example.adapter;
 import com.hacknife.example.R;
 
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -26,6 +27,8 @@ public class MessageAdapter extends BaseRecyclerViewAdapter<Message, BaseRecycle
 
     @Override
     public BaseRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Log.v("dzq","===========================>>"+parent.getContext());
+
         return new MessageViewHolder(SkinSwitcher.setFactory2(parent.getContext(), SkinSwitcherFactory.class).inflate(R.layout.item_message, null));
     }
 

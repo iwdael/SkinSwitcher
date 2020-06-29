@@ -43,6 +43,9 @@ abstract class BaseFactory implements Factory {
         List<SkinAttr> attrs = parseSkinView(context, view, name, attributeSet);
         if (attrs.isEmpty()) return view;
         SkinView skinView = new SkinView(view, name, attrs);
+        if (initRefresh) {
+            skinView.autoSwitcher();
+        }
         skinViews.add(skinView);
         return view;
     }
@@ -51,7 +54,6 @@ abstract class BaseFactory implements Factory {
     public void onStateChanged(@NonNull LifecycleOwner source, @NonNull Lifecycle.Event event) {
         lifeEvent = event;
         if (event == Lifecycle.Event.ON_CREATE) {
-            skinSwitch(++refresh);
             SkinSwitcherConfig.registerSkinSwitcherListener(this);
         } else if (event == Lifecycle.Event.ON_START) {
             if (!initRefresh) {
@@ -118,6 +120,16 @@ abstract class BaseFactory implements Factory {
                     if (adapter.switcher(view, name, attr.name, attr.value, attr.type)) return;
                 }
             }
+        }
+
+        public void autoSwitcher() {
+            view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+                @Override
+                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                    SkinView.this.skinSwitch();
+                    view.removeOnLayoutChangeListener(this);
+                }
+            });
         }
     }
 
