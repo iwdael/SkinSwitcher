@@ -32,6 +32,7 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 
+import static com.github.javaparser.JavaParser.parseExpression;
 import static com.github.javaparser.ast.expr.BinaryExpr.Operator.EQUALS;
 import static com.github.javaparser.ast.expr.UnaryExpr.Operator.LOGICAL_COMPLEMENT;
 import static com.hacknife.skinswitcher.compiler.helper.Helper.parameter;
@@ -71,7 +72,6 @@ public class SkinSwitcherAdapter implements SkinSwitcher {
     private Element elementReplace;
     private Element elementResource;
     private Element elementDefaultFilter;
-    private Element elementSwitcherChange;
 
     SkinSwitcherAdapter() {
         invoke = new HashMap<>();
@@ -186,9 +186,7 @@ public class SkinSwitcherAdapter implements SkinSwitcher {
 
     private BlockStmt createSwitcher() {
         BlockStmt blockStmt = new BlockStmt();
-        if (elementSwitcherChange != null) {
-            blockStmt.addStatement(new IfStmt().setCondition(new UnaryExpr(new MethodCallExpr(String.format("%s.%s", elementSwitcherChange.getEnclosingElement().toString(), elementSwitcherChange.getSimpleName().toString()), parameter(elementSwitcherChange)), LOGICAL_COMPLEMENT)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(true))));
-        }
+
         if (elementDefaultFilter != null) {
             blockStmt.addStatement(new IfStmt().setCondition(new UnaryExpr(new MethodCallExpr(String.format("%s.%s", elementDefaultFilter.getEnclosingElement().toString(), elementDefaultFilter.getSimpleName().toString()), parameter(elementDefaultFilter, elementReplace != null)), LOGICAL_COMPLEMENT)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(false))));
         }
@@ -198,6 +196,7 @@ public class SkinSwitcherAdapter implements SkinSwitcher {
 
         if (elementReplace != null) {
             blockStmt.addStatement(new MethodCallExpr(String.format("String value = %s.%s", elementReplace.getEnclosingElement().toString(), elementReplace.getSimpleName().toString()), parameter(elementReplace)));
+            blockStmt.addStatement(new IfStmt().setCondition(new MethodCallExpr("value.equalsIgnoreCase",parseExpression("originalValue"))).setThenStmt( new ReturnStmt().setExpression(new BooleanLiteralExpr(true)) ));
         }
 
         if (elementId != null) {
@@ -230,9 +229,7 @@ public class SkinSwitcherAdapter implements SkinSwitcher {
 
     private BlockStmt createFilter() {
         BlockStmt blockStmt = new BlockStmt();
-        if (elementSwitcherChange != null) {
-            blockStmt.addStatement(new IfStmt().setCondition(new UnaryExpr(new MethodCallExpr(String.format("%s.%s", elementSwitcherChange.getEnclosingElement().toString(), elementSwitcherChange.getSimpleName().toString()), parameter(elementSwitcherChange)), LOGICAL_COMPLEMENT)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(true))));
-        }
+
         if (elementDefaultFilter != null) {
             blockStmt.addStatement(new IfStmt().setCondition(new UnaryExpr(new MethodCallExpr(String.format("%s.%s", elementDefaultFilter.getEnclosingElement().toString(), elementDefaultFilter.getSimpleName().toString()), parameter(elementDefaultFilter)), LOGICAL_COMPLEMENT)).setThenStmt(new ReturnStmt(new BooleanLiteralExpr(false))));
         }
@@ -267,12 +264,4 @@ public class SkinSwitcherAdapter implements SkinSwitcher {
                 '}';
     }
 
-
-    public void setElementSwitcherChange(Element elementSwitcherChange) {
-        this.elementSwitcherChange = elementSwitcherChange;
-    }
-
-    public Element getElementSwitcherChange() {
-        return elementSwitcherChange;
-    }
 }
